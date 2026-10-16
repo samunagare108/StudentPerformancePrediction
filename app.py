@@ -190,10 +190,11 @@ def student_dashboard():
                    recommendation,
                    risk_level
             FROM predictions
-            WHERE TRIM(student_id) = %s
+            WHERE user_id = %s
+              AND TRIM(student_id) = %s
             ORDER BY id DESC
             LIMIT 1
-        """, (registered_student_id,))
+        """, (session["user_id"], registered_student_id))
 
         latest_prediction = cursor.fetchone()
 
@@ -1171,6 +1172,26 @@ def predict():
     conn = psycopg.connect(os.environ["DATABASE_URL"])
     cursor = conn.cursor()
 
+    if session.get("role") == "student":
+        cursor.execute(
+            "SELECT student_name, student_id FROM users WHERE id = %s AND role = 'student'",
+            (session["user_id"],)
+        )
+        registered_student = cursor.fetchone()
+
+        if not registered_student or not registered_student[1]:
+            conn.close()
+            return "Your registered Student ID was not found. Please contact your teacher."
+
+        registered_name, registered_id = registered_student
+
+        if student_id.strip() != registered_id.strip():
+            conn.close()
+            return "Student ID mismatch. Please use your registered Student ID."
+
+        student_id = registered_id.strip()
+        student_name = (registered_name or student_name).strip()
+
 
     
 
@@ -1362,9 +1383,10 @@ def history():
                 predicted_score,
                 performance
             FROM predictions
-            WHERE student_id = %s
+            WHERE user_id = %s
+              AND TRIM(student_id) = %s
             ORDER BY id DESC
-        """, (registered_student_id,))
+        """, (session["user_id"], registered_student_id.strip()))
 
     elif session.get("role") == "teacher":
 
