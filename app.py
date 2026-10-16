@@ -91,7 +91,6 @@ def register():
             )
 
         if role == "teacher":
-            import os
             expected_code = os.environ.get("TEACHER_REGISTRATION_CODE", "")
             if not expected_code or teacher_code != expected_code:
                 return render_template(
