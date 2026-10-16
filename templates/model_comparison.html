@@ -1,0 +1,253 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Model Comparison</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0b0b12;
+            color: #f5f5f7;
+            min-height: 100vh;
+        }
+
+        nav {
+            padding: 20px 7%;
+            border-bottom: 1px solid #29293a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h2 {
+            font-size: 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #aaaabd;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .container {
+            width: 86%;
+            max-width: 1100px;
+            margin: 45px auto;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #aaaabd;
+            font-size: 14px;
+        }
+
+        .table-card {
+            background: #151521;
+            border: 1px solid #29293a;
+            border-radius: 18px;
+            padding: 25px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th,
+        td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #29293a;
+        }
+
+        th {
+            color: #aaaabd;
+            font-size: 13px;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        .best {
+            color: #d58cff;
+            font-weight: 600;
+        }
+
+        .info-card {
+            margin-top: 25px;
+            background: #151521;
+            border: 1px solid #29293a;
+            border-radius: 18px;
+            padding: 25px;
+        }
+
+        .info-card h2 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .info-card p {
+            color: #aaaabd;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 700px) {
+
+            .container {
+                width: 92%;
+                margin: 30px auto;
+            }
+
+            nav {
+                padding: 18px 4%;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .header h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+
+        <h2>Academic Analytics</h2>
+
+        <div class="nav-links">
+            <a href="/teacher-dashboard">Dashboard</a>
+            <a href="/bulk-upload">Bulk Upload</a>
+            <a href="/logout">Logout</a>
+        </div>
+
+    </nav>
+
+
+    <div class="container">
+
+        <div class="header">
+
+            <h1>Model Comparison</h1>
+
+            <p>
+                Comparison of machine learning models used for student performance prediction.
+            </p>
+
+        </div>
+
+
+        <div class="table-card">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Model</th>
+                        <th>R² Score</th>
+                        <th>MAE</th>
+                        <th>RMSE</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for model_name, metrics in model_metrics.items() %}
+
+                    <tr>
+
+                        <td
+                            {% if model_name == "Linear Regression" %}
+                                class="best"
+                            {% endif %}
+                        >
+                            {{ model_name }}
+
+                            {% if model_name == "Linear Regression" %}
+                                ⭐ Best Model
+                            {% endif %}
+
+                        </td>
+
+                        <td>{{ metrics["r2_score"] }}</td>
+
+                        <td>{{ metrics["mae"] }}</td>
+
+                        <td>{{ metrics["rmse"] }}</td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <h2>Evaluation Metrics</h2>
+
+            <p>
+                <strong>R² Score:</strong>
+                Measures how well the model explains variation in the target score.
+                Higher values indicate better fit.
+            </p>
+
+            <p>
+                <strong>MAE:</strong>
+                Mean Absolute Error represents the average prediction error.
+                Lower values are better.
+            </p>
+
+            <p>
+                <strong>RMSE:</strong>
+                Root Mean Squared Error gives more importance to larger prediction errors.
+                Lower values are better.
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+</html> {% endcomment %}

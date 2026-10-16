@@ -1,0 +1,22 @@
+{
+    "Linear Regression": {
+        "r2_score": 0.563,
+        "mae": 5.52,
+        "rmse": 6.85
+    },
+    "Decision Tree": {
+        "r2_score": 0.0763,
+        "mae": 7.71,
+        "rmse": 9.96
+    },
+    "Random Forest": {
+        "r2_score": 0.4634,
+        "mae": 6.21,
+        "rmse": 7.59
+    },
+    "Gradient Boosting": {
+        "r2_score": 0.4956,
+        "mae": 5.92,
+        "rmse": 7.36
+    }
+}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>High-Risk Students</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0b0b12;
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 50px auto;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+
+        .table-container {
+            background: #151521;
+            border: 1px solid #29293b;
+            border-radius: 16px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #29293b;
+        }
+
+        th {
+            color: #c4a7ff;
+        }
+
+        td {
+            color: #ddd;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 20px;
+            border-radius: 10px;
+            background: #0f0f18;
+            border: 1px solid #303044;
+            color: white;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background: #1d1d2b;
+        }
+
+        .empty {
+            text-align: center;
+            color: #aaa;
+            padding: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>High-Risk Students</h1>
+
+        <p class="subtitle">
+            Students who may need additional academic support
+        </p>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Student ID</th>
+                        <th>Predicted Score</th>
+                        <th>Performance</th>
+                        <th>Risk Level</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% if students %}
+
+                        {% for student in students %}
+
+                        <tr>
+                            <td>{{ student[0] }}</td>
+                            <td>{{ student[1] }}</td>
+                            <td>{{ student[2] }}/100</td>
+                            <td>{{ student[3] }}</td>
+                            <td>{{ student[4] }}</td>
+                        </tr>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <tr>
+                            <td colspan="5" class="empty">
+                                No high-risk students found.
+                            </td>
+                        </tr>
+
+                    {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <a href="/teacher-dashboard" class="back-button">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>What-If Result | Student Performance</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0b0b12;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            border-bottom: 1px solid #29293a;
+            background: #0f0f18;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+
+            background: linear-gradient(90deg, #ff5fbc, #8f63ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 22px;
+        }
+
+        .nav-links a {
+            color: #cfcfe0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            margin: 55px auto;
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .heading h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+
+            background: linear-gradient(90deg, #ff5fbc, #8f63ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .heading p {
+            color: #aaaabd;
+            font-size: 14px;
+        }
+
+        .result-card {
+            background: #151521;
+            border: 1px solid #29293a;
+            border-radius: 22px;
+            padding: 35px;
+            text-align: center;
+        }
+
+        .result-label {
+            color: #aaaabd;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .score {
+            font-size: 55px;
+            font-weight: bold;
+
+            background: linear-gradient(90deg, #ff5fbc, #8f63ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .score-text {
+            color: #aaaabd;
+            margin-top: 5px;
+        }
+
+        .input-summary {
+            margin-top: 35px;
+            text-align: left;
+        }
+
+        .input-summary h2 {
+            font-size: 18px;
+            margin-bottom: 18px;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .input-box {
+            background: #0f0f18;
+            border: 1px solid #29293a;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .input-box span {
+            display: block;
+            color: #aaaabd;
+            font-size: 12px;
+            margin-bottom: 7px;
+        }
+
+        .input-box strong {
+            font-size: 15px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .button {
+            flex: 1;
+            padding: 13px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .primary {
+            color: white;
+            background: linear-gradient(90deg, #ff5fbc, #8f63ff);
+        }
+
+        .secondary {
+            color: #ddd;
+            border: 1px solid #303044;
+            background: #0f0f18;
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 30px auto;
+            }
+
+            .result-card {
+                padding: 25px 18px;
+            }
+
+            .score {
+                font-size: 45px;
+            }
+
+            .input-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 450px) {
+
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .comparison-card {
+            background: #0f0f18;
+            border: 1px solid #29293a;
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .comparison-card span {
+            display: block;
+            color: #aaaabd;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        
+        .comparison-card strong {
+            display: block;
+            font-size: 24px;
+        }
+        
+        .comparison-card small {
+            display: block;
+            margin-top: 7px;
+            color: #77778a;
+            font-size: 11px;
+        }
+        
+        @media (max-width: 700px) {
+        
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        
+        }
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .insight-card {
+            background: #0f0f18;
+            border: 1px solid #29293a;
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .insight-card span {
+            display: block;
+            color: #aaaabd;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        
+        .insight-card strong {
+            display: block;
+            font-size: 20px;
+        }
+        
+        .insight-card small {
+            display: block;
+            margin-top: 8px;
+            color: #77778a;
+            font-size: 11px;
+        }
+        
+        .recommendation-card strong {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 700px) {
+            .insight-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Student Performance
+        </div>
+
+        <div class="nav-links">
+            <a href="{{ url_for('teacher_dashboard') if session.get('role', '')|lower == 'teacher' else url_for('student_dashboard') }}">Dashboard</a>
+            <a href="/logout">Logout</a>
+        </div>
+
+    </nav>
+
+
+    <div class="container">
+
+        <div class="heading">
+
+            <h1>What-If Result</h1>
+
+            <p>
+                Your predicted score based on the changed inputs.
+            </p>
+
+        </div>
+
+
+        <div class="result-card">
+
+            <p class="result-label">
+                Predicted Final Score
+            </p>
+
+            <div class="comparison-grid">
+
+                <div class="comparison-card">
+                    <span>Current Score</span>
+                    <strong>{{ current_score }}</strong>
+                    <small>Latest prediction</small>
+                </div>
+            
+                <div class="comparison-card">
+                    <span>What-If Score</span>
+                    <strong>{{ predicted_score }}</strong>
+                    <small>New scenario</small>
+                </div>
+            
+                <div class="comparison-card">
+                    <span>Possible Change</span>
+            
+                    <strong>
+                        {% if improvement > 0 %}
+                            +{{ improvement }}
+                        {% elif improvement < 0 %}
+                            {{ improvement }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </strong>
+            
+                    <small>Score difference</small>
+                </div>
+            
+            </div>
+
+            <div class="score">
+                {{ predicted_score }}
+            </div>
+
+            <p class="score-text">
+                out of 100
+            </p>
+            
+            <div class="insight-grid">
+
+                <div class="insight-card">
+                    <span>Performance</span>
+                    <strong>{{ performance }}</strong>
+                    <small>Expected performance level</small>
+                </div>
+            
+                <div class="insight-card">
+                    <span>Risk Level</span>
+                    <strong>{{ risk_level }}</strong>
+                    <small>Based on predicted score</small>
+                </div>
+            
+                <div class="insight-card recommendation-card">
+                    <span>Recommendation</span>
+                    <strong>{{ recommendation }}</strong>
+                    <small>Personalized guidance</small>
+                </div>
+            
+            </div>
+
+            <div class="input-summary">
+
+                <h2>Scenario Inputs</h2>
+
+                <div class="input-grid">
+
+                    <div class="input-box">
+                        <span>Study Hours</span>
+                        <strong>{{ study_hours }} hrs</strong>
+                    </div>
+
+                    <div class="input-box">
+                        <span>Attendance</span>
+                        <strong>{{ attendance }}%</strong>
+                    </div>
+
+                    <div class="input-box">
+                        <span>Previous Score</span>
+                        <strong>{{ previous_score }}</strong>
+                    </div>
+
+                    <div class="input-box">
+                        <span>Assignments Completed</span>
+                        <strong>{{ assignments_completed }}/{{ total_assignments }}</strong>
+                    </div>
+
+                    <div class="input-box">
+                        <span>Completion Rate</span>
+                        <strong>{{ completion_rate }}%</strong>
+                    </div>
+
+                    <div class="input-box">
+                        <span>Sleep Hours</span>
+                        <strong>{{ sleep_hours }} hrs</strong>
+                    </div>
+
+                    <div class="input-box">
+                        <span>Participation</span>
+                        <strong>{{ participation }}/10</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="buttons">
+
+                <a href="/predict-form" class="button primary">
+                    Try Another Scenario
+                </a>
+
+                <a href="{{ url_for('teacher_dashboard') if session.get('role', '')|lower == 'teacher' else url_for('student_dashboard') }}" class="button secondary">
+                    Back to Dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

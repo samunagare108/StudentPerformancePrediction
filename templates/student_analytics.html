@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Analytics</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f0f18;
+            color: white;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 25px;
+            color: #f472b6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #181824;
+            border: 1px solid #29293a;
+            border-radius: 16px;
+            padding: 22px;
+        }
+
+        .card h3 {
+            margin: 0;
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .value {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #f472b6;
+        }
+
+        /* Analytics */
+
+        .analytics-card,
+        .record-card,
+        .history {
+            background: #181824;
+            border: 1px solid #29293a;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            margin-top: 0;
+            margin-bottom: 6px;
+        }
+
+        .section-subtitle {
+            color: #999;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .tab {
+            border: 1px solid #35354a;
+            background: #12121c;
+            color: #ccc;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .tab:hover {
+            border-color: #f472b6;
+            color: #f472b6;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            color: white;
+            border-color: transparent;
+        }
+
+        .chart-box {
+            position: relative;
+            height: 360px;
+        }
+
+        /* Selected record */
+
+        .record-card {
+            display: none;
+        }
+
+        .record-card.show {
+            display: block;
+        }
+
+        .record-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .record-item {
+            background: #12121c;
+            border: 1px solid #29293a;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .record-item span {
+            display: block;
+            color: #999;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .record-item strong {
+            font-size: 18px;
+            color: #eee;
+        }
+
+        .close-btn {
+            float: right;
+            border: 1px solid #444;
+            background: transparent;
+            color: #bbb;
+            padding: 7px 13px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            color: white;
+            border-color: #f472b6;
+        }
+
+        /* History */
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1050px;
+        }
+
+        th,
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #29293a;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th {
+            color: #f472b6;
+            font-size: 14px;
+        }
+
+        td {
+            color: #ddd;
+        }
+
+        .score {
+            font-weight: bold;
+            color: #c084fc;
+        }
+
+        .record-link {
+            color: #f472b6;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .record-link:hover {
+            color: #c084fc;
+            text-decoration: underline;
+        }
+
+        .performance {
+            color: #c084fc;
+            font-weight: 600;
+        }
+
+        @media (max-width: 900px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .record-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .info-grid,
+            .record-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-box {
+                height: 300px;
+            }
+
+            .analytics-card,
+            .record-card,
+            .history {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <a href="{{ url_for('teacher_dashboard') if session.get('role', '')|lower == 'teacher' else url_for('student_dashboard') }}" class="back">
+        ← Back to Student Dashboard
+    </a>
+
+    <h1>{{ student_name }}</h1>
+
+    <p class="subtitle">
+        Student ID: {{ student_id }} · Complete Academic Analytics
+    </p>
+
+
+    {% set latest = predictions[0] %}
+
+    <!-- SUMMARY -->
+
+    <div class="info-grid">
+
+        <div class="card">
+            <h3>Latest Predicted Score</h3>
+            <div class="value">
+                {{ latest[2] }}/100
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Performance</h3>
+            <div class="value">
+                {{ latest[3] }}
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Risk Level</h3>
+            <div class="value">
+                {{ latest[4] }}
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Total Predictions</h3>
+            <div class="value">
+                {{ predictions|length }}
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- PERIOD ANALYTICS -->
+
+    <div class="analytics-card">
+
+        <h2 class="section-title">
+            Performance Analytics
+        </h2>
+
+        <p class="section-subtitle">
+            Analyze student performance and average predicted score over time.
+        </p>
+
+        <div class="tabs">
+
+            <button class="tab active" onclick="showPeriod('week', this)">
+                Week
+            </button>
+
+            <button class="tab" onclick="showPeriod('month', this)">
+                Month
+            </button>
+
+            <button class="tab" onclick="showPeriod('year', this)">
+                Year
+            </button>
+
+        </div>
+
+        <div class="chart-box">
+            <canvas id="periodChart"></canvas>
+        </div>
+
+    </div>
+
+
+    <!-- SELECTED RECORD -->
+
+    <div class="record-card" id="recordCard">
+
+        <button class="close-btn" onclick="closeRecord()">
+            Close
+        </button>
+
+        <h2 class="section-title">
+            Selected Prediction Performance
+        </h2>
+
+        <p class="section-subtitle" id="recordDate"></p>
+
+        <div class="record-grid">
+
+            <div class="record-item">
+                <span>Predicted Score</span>
+                <strong id="rScore"></strong>
+            </div>
+
+            <div class="record-item">
+                <span>Performance</span>
+                <strong id="rPerformance"></strong>
+            </div>
+
+            <div class="record-item">
+                <span>Risk Level</span>
+                <strong id="rRisk"></strong>
+            </div>
+
+            <div class="record-item">
+                <span>Study Hours</span>
+                <strong id="rStudy"></strong>
+            </div>
+
+            <div class="record-item">
+                <span>Attendance</span>
+                <strong id="rAttendance"></strong>
+            </div>
+
+            <div class="record-item">
+                <span>Previous Score</span>
+                <strong id="rPrevious"></strong>
+            </div>
+
+            <div class="record-item">
+                <span>Assignments</span>
+                <strong id="rAssignments"></strong>
+            </div>
+
+            <div class="record-item">
+                <span>Sleep Hours</span>
+                <strong id="rSleep"></strong>
+            </div>
+
+            <div class="record-item">
+                <span>Participation</span>
+                <strong id="rParticipation"></strong>
+            </div>
+
+        </div>
+
+        <div class="chart-box">
+            <canvas id="recordChart"></canvas>
+        </div>
+
+    </div>
+
+
+    <!-- COMPLETE HISTORY -->
+
+    <div class="history">
+
+        <h2 class="section-title">
+            Complete Prediction History
+        </h2>
+
+        <p class="section-subtitle">
+            Click any prediction date to view its detailed performance graph.
+        </p>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Score</th>
+                        <th>Performance</th>
+                        <th>Risk</th>
+                        <th>Study Hours</th>
+                        <th>Attendance</th>
+                        <th>Previous Score</th>
+                        <th>Assignments</th>
+                        <th>Sleep Hours</th>
+                        <th>Participation</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for prediction in predictions %}
+
+                    <tr>
+
+                        <td>
+                            <a href="javascript:void(0)"
+                               class="record-link"
+                               onclick='showRecord(
+                                   {{ prediction[2] }},
+                                   {{ prediction[3]|tojson }},
+                                   {{ prediction[4]|tojson }},
+                                   {{ prediction[5] }},
+                                   {{ prediction[6] }},
+                                   {{ prediction[7] }},
+                                   {{ prediction[8] }},
+                                   {{ prediction[9] }},
+                                   {{ prediction[10] }},
+                                   {{ prediction[11]|tojson }}
+                               )'>
+                                {{ prediction[11] }}
+                            </a>
+                        </td>
+
+                        <td class="score">
+                            {{ prediction[2] }}/100
+                        </td>
+
+                        <td class="performance">
+                            {{ prediction[3] }}
+                        </td>
+
+                        <td>
+                            {{ prediction[4] }}
+                        </td>
+
+                        <td>
+                            {{ prediction[5] }}
+                        </td>
+
+                        <td>
+                            {{ prediction[6] }}%
+                        </td>
+
+                        <td>
+                            {{ prediction[7] }}
+                        </td>
+
+                        <td>
+                            {{ prediction[8] }}
+                        </td>
+
+                        <td>
+                            {{ prediction[9] }}
+                        </td>
+
+                        <td>
+                            {{ prediction[10] }}
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const weeklyData = {{ weekly_data | tojson }};
+const monthlyData = {{ monthly_data | tojson }};
+const yearlyData = {{ yearly_data | tojson }};
+const prediction_points = {{ prediction_points | tojson }};
+
+let periodChart = null;
+let recordChart = null;
+
+
+/* PERIOD GRAPH */
+
+function showPeriod(period, button) {
+
+    document.querySelectorAll(".tab").forEach(function(tab) {
+        tab.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    let sourceData;
+
+    if (period === "week") {
+        sourceData = weeklyData;
+    }
+    else if (period === "month") {
+        sourceData = monthlyData;
+    }
+    else {
+        sourceData = yearlyData;
+    }
+
+    const labels = sourceData.map(function(item) {
+        return item[0];
+    });
+
+    const averages = sourceData.map(function(item) {
+        return Number(item[1]);
+    });
+
+    if (periodChart) {
+        periodChart.destroy();
+    }
+
+    const ctx = document.getElementById("periodChart");
+
+    periodChart = new Chart(ctx, {
+
+        type: "line",
+
+        data: {
+
+            labels: labels,
+
+            datasets: [
+
+                {
+                    label: "Average Performance",
+                    data: averages,
+                    borderColor: "#f472b6",
+                    backgroundColor: "rgba(244,114,182,0.12)",
+                    borderWidth: 3,
+                    tension: 0.35,
+                    fill: true,
+                    pointRadius: 5,
+                    pointBackgroundColor: "#f472b6"
+                }
+
+            ]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            scales: {
+
+                y: {
+                    beginAtZero: false,
+                    min: 0,
+                    max: 100,
+                    ticks: {
+                        color: "#aaa"
+                    },
+                    grid: {
+                        color: "#29293a"
+                    }
+                },
+
+                x: {
+                    ticks: {
+                        color: "#aaa"
+                    },
+                    grid: {
+                        color: "#29293a"
+                    }
+                }
+
+            },
+
+            plugins: {
+
+                legend: {
+                    labels: {
+                        color: "#ddd"
+                    }
+                }
+
+            }
+
+        }
+
+    });
+
+}
+function showPeriod(period, button) {
+
+    document.querySelectorAll(".tab").forEach(function(tab) {
+        tab.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    const canvas = document.getElementById("periodChart");
+
+    /*
+       prediction_points format:
+       [
+           ["2026-09-25 10:21:22", 84.25],
+           ["2026-09-26 11:10:05", 78.50]
+       ]
+    */
+
+    if (!prediction_points || prediction_points.length === 0) {
+
+        if (periodChart) {
+            periodChart.destroy();
+            periodChart = null;
+        }
+
+        canvas.style.display = "none";
+
+        let message = document.getElementById("noDataMessage");
+
+        if (!message) {
+            message = document.createElement("div");
+            message.id = "noDataMessage";
+            message.style.textAlign = "center";
+            message.style.padding = "100px 20px";
+            message.style.color = "#aaa";
+            message.style.fontSize = "18px";
+            canvas.parentElement.appendChild(message);
+        }
+
+        message.innerHTML =
+            "📊 No dated prediction data available for this student.";
+
+        message.style.display = "block";
+
+        return;
+    }
+
+    canvas.style.display = "block";
+
+    const oldMessage = document.getElementById("noDataMessage");
+
+    if (oldMessage) {
+        oldMessage.style.display = "none";
+    }
+
+    let grouped = {};
+
+    prediction_points.forEach(function(item) {
+
+        const dateString = item[0];
+        const score = Number(item[1]);
+
+        const date = new Date(dateString.replace(" ", "T"));
+
+        let periodKey;
+
+        if (period === "week") {
+
+            const firstDay = new Date(date);
+            const day = firstDay.getDay();
+
+            firstDay.setDate(
+                firstDay.getDate() - day
+            );
+
+            periodKey =
+                firstDay.getFullYear() +
+                "-W" +
+                String(getWeekNumber(firstDay)).padStart(2, "0");
+
+        }
+        else if (period === "month") {
+
+            periodKey =
+                date.getFullYear() +
+                "-" +
+                String(date.getMonth() + 1).padStart(2, "0");
+
+        }
+        else {
+
+            periodKey =
+                String(date.getFullYear());
+
+        }
+
+        if (!grouped[periodKey]) {
+            grouped[periodKey] = [];
+        }
+
+        grouped[periodKey].push(score);
+    });
+
+    const labels = Object.keys(grouped).sort();
+
+    const averages = labels.map(function(label) {
+
+        const values = grouped[label];
+
+        const total = values.reduce(
+            function(sum, value) {
+                return sum + value;
+            },
+            0
+        );
+
+        return Number(
+            (total / values.length).toFixed(2)
+        );
+    });
+
+    /*
+       Individual prediction score.
+       If multiple predictions exist in one period,
+       their average is shown for that period.
+    */
+    const predictionScores = averages;
+
+    if (periodChart) {
+        periodChart.destroy();
+    }
+
+    const ctx = document.getElementById("periodChart");
+
+    periodChart = new Chart(ctx, {
+
+        type: "line",
+
+        data: {
+
+            labels: labels,
+
+            datasets: [
+
+                {
+                    label: "Prediction Performance",
+                    data: predictionScores,
+                    borderColor: "#f472b6",
+                    backgroundColor: "rgba(244,114,182,0.12)",
+                    borderWidth: 3,
+                    tension: 0.35,
+                    fill: true,
+                    pointRadius: 6,
+                    pointBackgroundColor: "#f472b6"
+                },
+
+                {
+                    label: "Average Performance",
+                    data: averages,
+                    borderColor: "#a855f7",
+                    borderWidth: 2,
+                    borderDash: [6, 6],
+                    tension: 0.35,
+                    fill: false,
+                    pointRadius: 4
+                }
+
+            ]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            scales: {
+
+                y: {
+                    beginAtZero: true,
+                    min: 0,
+                    max: 100,
+
+                    ticks: {
+                        color: "#aaa"
+                    },
+
+                    grid: {
+                        color: "#29293a"
+                    }
+                },
+
+                x: {
+
+                    ticks: {
+                        color: "#aaa"
+                    },
+
+                    grid: {
+                        color: "#29293a"
+                    }
+                }
+
+            },
+
+            plugins: {
+
+                legend: {
+                    labels: {
+                        color: "#ddd"
+                    }
+                }
+
+            }
+
+        }
+
+    });
+}
+
+
+/* Calculate week number */
+function getWeekNumber(date) {
+
+    const firstDayOfYear =
+        new Date(date.getFullYear(), 0, 1);
+
+    const pastDays =
+        Math.floor(
+            (date - firstDayOfYear) / 86400000
+        );
+
+    return Math.ceil(
+        (pastDays + firstDayOfYear.getDay() + 1) / 7
+    );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* PARTICULAR RECORD */
+
+function showRecord(
+    score,
+    performance,
+    risk,
+    study,
+    attendance,
+    previous,
+    assignments,
+    sleep,
+    participation,
+    date
+) {
+
+    document.getElementById("recordCard").classList.add("show");
+
+    document.getElementById("recordDate").innerText =
+        "Prediction recorded on " + date;
+
+    document.getElementById("rScore").innerText =
+        score + "/100";
+
+    document.getElementById("rPerformance").innerText =
+        performance;
+
+    document.getElementById("rRisk").innerText =
+        risk;
+
+    document.getElementById("rStudy").innerText =
+        study + " hours";
+
+    document.getElementById("rAttendance").innerText =
+        attendance + "%";
+
+    document.getElementById("rPrevious").innerText =
+        previous;
+
+    document.getElementById("rAssignments").innerText =
+        assignments;
+
+    document.getElementById("rSleep").innerText =
+        sleep + " hours";
+
+    document.getElementById("rParticipation").innerText =
+        participation;
+
+
+    if (recordChart) {
+        recordChart.destroy();
+    }
+
+    const ctx = document.getElementById("recordChart");
+
+    recordChart = new Chart(ctx, {
+
+        type: "bar",
+
+        data: {
+
+            labels: [
+                "Predicted Score",
+                "Attendance",
+                "Previous Score",
+                "Study Hours",
+                "Assignments",
+                "Sleep Hours",
+                "Participation"
+            ],
+
+            datasets: [
+
+                {
+                    label: "This Prediction",
+                    data: [
+                        score,
+                        attendance,
+                        previous,
+                        study,
+                        assignments,
+                        sleep,
+                        participation
+                    ],
+
+                    backgroundColor: [
+                        "#f472b6",
+                        "#c084fc",
+                        "#818cf8",
+                        "#ec4899",
+                        "#a78bfa",
+                        "#f9a8d4",
+                        "#8b5cf6"
+                    ],
+
+                    borderRadius: 8
+                }
+
+            ]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            scales: {
+
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        color: "#aaa"
+                    },
+                    grid: {
+                        color: "#29293a"
+                    }
+                },
+
+                x: {
+                    ticks: {
+                        color: "#aaa"
+                    },
+                    grid: {
+                        display: false
+                    }
+                }
+
+            },
+
+            plugins: {
+
+                legend: {
+                    labels: {
+                        color: "#ddd"
+                    }
+                }
+
+            }
+
+        }
+
+    });
+
+    document.getElementById("recordCard").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+}
+
+
+function closeRecord() {
+
+    document.getElementById("recordCard").classList.remove("show");
+
+}
+
+
+/* DEFAULT GRAPH */
+
+showPeriod(
+    "week",
+    document.querySelector(".tab.active")
+);
+
+</script>
+
+</body>
+</html>

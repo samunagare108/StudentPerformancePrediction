@@ -1,0 +1,46 @@
+.env
+.env.*
+!.env.example
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+student_predictions.db
+student_predictions.db-journal
+student_predictions.db-wal
+student_predictions.db-shm
+backups/
+*.before_neon
+*.before_sequence_fix
+*.before_batch_fix
+
+# Local databases and backups
+*.db
+*.db-*
+*.backup
+*.backup_*
+*.before_*
+*.safety_*
+app.py.before_*
+app.py.backup*
+app_backup_*
+migrate_to_neon.py.backup
+backup_before_*/
+
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+
+# Python environment/cache
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Dataset files (keep student data out of the public repository)
+data/*.csv
+
+# Backup templates
+templates/*backup*
+templates/*before_*

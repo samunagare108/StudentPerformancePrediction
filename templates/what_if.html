@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>What-If Analysis | Student Performance</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0b0b12;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            border-bottom: 1px solid #29293a;
+            background: #0f0f18;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+
+            background: linear-gradient(90deg, #ff5fbc, #8f63ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 22px;
+        }
+
+        .nav-links a {
+            color: #cfcfe0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 50px auto;
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .heading h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+
+            background: linear-gradient(90deg, #ff5fbc, #8f63ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .heading p {
+            color: #aaaabd;
+            font-size: 14px;
+        }
+
+        .card {
+            background: #151521;
+            border: 1px solid #29293a;
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #d0d0dc;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px;
+
+            background: #0f0f18;
+            border: 1px solid #303044;
+            border-radius: 10px;
+
+            color: white;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            border-color: #9b65ff;
+        }
+
+        .predict-button {
+            width: 100%;
+            margin-top: 28px;
+            padding: 14px;
+
+            border: none;
+            border-radius: 10px;
+
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            background: linear-gradient(90deg, #ff5fbc, #8f63ff);
+        }
+
+        .predict-button:hover {
+            opacity: 0.9;
+        }
+
+        .info {
+            margin-top: 25px;
+            padding: 18px;
+
+            background: rgba(143, 99, 255, 0.08);
+            border: 1px solid rgba(143, 99, 255, 0.2);
+
+            border-radius: 12px;
+
+            color: #bcbcd0;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 94%;
+                margin: 30px auto;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .heading h1 {
+                font-size: 27px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Student Performance
+        </div>
+
+        <div class="nav-links">
+            <a href="{{ url_for('teacher_dashboard') if session.get('role', '')|lower == 'teacher' else url_for('student_dashboard') }}">Dashboard</a>
+            <a href="/logout">Logout</a>
+        </div>
+
+    </nav>
+
+
+    <div class="container">
+
+        <div class="heading">
+
+            <h1>What-If Analysis</h1>
+
+            <p>
+                Change your academic inputs and see how your predicted score may change.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <form action="/what-if" method="POST">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Study Hours</label>
+
+                        <input
+                            type="number"
+                            name="study_hours"
+                            min="1"
+                            max="8"
+                            step="0.1"
+                            required
+                            placeholder="1 - 8">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Attendance (%)</label>
+
+                        <input
+                            type="number"
+                            name="attendance"
+                            min="50"
+                            max="100"
+                            step="0.1"
+                            required
+                            placeholder="50 - 100">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Previous Score</label>
+
+                        <input
+                            type="number"
+                            name="previous_score"
+                            min="40"
+                            max="95"
+                            step="0.1"
+                            required
+                            placeholder="40 - 95">
+                    </div>
+
+
+                    <div class="form-group">
+    <label>Total Assignments Given</label>
+    <input
+        type="number"
+        name="total_assignments"
+        min="1"
+        max="100"
+        value="10"
+        required
+        placeholder="1 - 100">
+</div>
+
+<div class="form-group">
+    <label>Assignments Completed</label>
+    <input
+        type="number"
+        name="assignments_completed"
+        min="0"
+        max="10"
+        value="0"
+        required
+        placeholder="0 - 10">
+</div>
+
+<div class="form-group">
+    <label>Assignment Completion Rate</label>
+    <input
+        type="text"
+        id="completion_rate"
+        placeholder="Calculated automatically"
+        readonly>
+</div>
+
+
+                    <div class="form-group">
+                        <label>Sleep Hours</label>
+
+                        <input
+                            type="number"
+                            name="sleep_hours"
+                            min="4"
+                            max="9"
+                            step="0.1"
+                            required
+                            placeholder="4 - 9">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Participation</label>
+
+                        <input
+                            type="number"
+                            name="participation"
+                            min="0"
+                            max="10"
+                            required
+                            placeholder="0 - 10">
+                    </div>
+
+                </div>
+
+
+                <button type="submit" class="predict-button">
+                    Analyze Prediction
+                </button>
+
+            </form>
+
+
+            <div class="info">
+
+                <strong>How it works:</strong>
+
+                This analysis uses the trained machine learning model
+                to estimate your final score based on the values you enter.
+                You can experiment with different study hours, attendance,
+                assignments and other academic factors.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const totalInput = document.querySelector('input[name="total_assignments"]');
+    const completedInput = document.querySelector('input[name="assignments_completed"]');
+    const rateInput = document.getElementById("completion_rate");
+
+    function updateCompletionRate() {
+        const total = Number(totalInput.value);
+        const completed = Number(completedInput.value);
+
+        if (
+            totalInput.value !== "" &&
+            completedInput.value !== "" &&
+            total >= 1 &&
+            completed >= 0 &&
+            completed <= total
+        ) {
+            rateInput.value = ((completed / total) * 100).toFixed(1) + "%";
+        } else {
+            rateInput.value = "";
+        }
+    }
+
+    totalInput.addEventListener("input", updateCompletionRate);
+    completedInput.addEventListener("input", updateCompletionRate);
+
+    updateCompletionRate();
+});
+</script>
+</html>

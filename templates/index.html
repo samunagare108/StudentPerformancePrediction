@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Performance Prediction</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0b0b12;
+            color: white;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: #151521;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 35px rgba(180, 80, 255, 0.12);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #aaaabd;
+            margin-bottom: 35px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 15px;
+            color: #d8d8e5;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 15px;
+
+            background: #0f0f18;
+            color: white;
+
+            border: 1px solid #303044;
+            border-radius: 10px;
+
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #a970ff;
+        }
+
+        .predict-button {
+            width: 100%;
+            padding: 14px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: linear-gradient(
+                90deg,
+                #ff5fbc,
+                #8f63ff
+            );
+
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .predict-button:hover {
+            opacity: 0.9;
+        }
+
+        .section-title {
+            font-size: 20px;
+            margin: 25px 0 18px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px 20px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+        }
+        .navbar {
+            max-width: 1100px;
+            margin: 0 auto 30px;
+        
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        
+            padding: 15px 20px;
+        
+            background: #151521;
+            border: 1px solid #29293a;
+            border-radius: 14px;
+        }
+        
+        .logo {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: #aaaabd;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .nav-links a:hover {
+            color: white;
+        }
+        
+        @media (max-width: 600px) {
+        
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+        
+            .nav-links {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Student Performance
+        </div>
+    
+        <div class="nav-links">
+            <a href="{{ url_for('teacher_dashboard') if session.get('role', '')|lower == 'teacher' else url_for('student_dashboard') }}">Dashboard</a>
+            <a href="/predict-form">Predict</a>
+            
+            <a href="/history">History</a>
+        </div>
+    
+    </nav>
+
+    <div class="container">
+
+        <h1>Student Performance Prediction</h1>
+
+        <p class="subtitle">
+            Predict a student's final academic performance using machine learning.
+        </p>
+
+        <form action="/predict" method="POST">
+
+            <div class="section-title">
+                Student Information
+            </div>
+
+            <div class="form-group">
+                <label>Student Name</label>
+                <input
+                    type="text"
+                    name="student_name"
+                    placeholder="Enter student name"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Student ID</label>
+                <input
+                    type="text"
+                    name="student_id"
+                    placeholder="Example: S001"
+                    required
+                >
+            </div>
+
+            <div class="section-title">
+                Academic Information
+            </div>
+
+            <div class="form-group">
+                <label>Daily Study Hours</label>
+                <input
+                    type="number"
+                    name="study_hours"
+                    step="0.1"
+                    min="1"
+                    max="8"
+                    placeholder="1 - 8 hours"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Attendance (%)</label>
+                <input
+                    type="number"
+                    name="attendance"
+                    step="0.1"
+                    min="50"
+                    max="100"
+                    placeholder="50 - 100"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Previous Exam Score (%)</label>
+                <input
+                    type="number"
+                    name="previous_score"
+                    step="0.1"
+                    min="40"
+                    max="95"
+                    placeholder="40 - 95"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+    <label>Total Assignments Given</label>
+    <input
+        type="number"
+        name="total_assignments"
+        min="1"
+        max="100"
+        placeholder="Enter total assignments"
+        required
+    >
+</div>
+
+<div class="form-group">
+    <label>Assignments Completed</label>
+    <input
+        type="number"
+        name="assignments_completed"
+        min="0"
+        max="100"
+        placeholder="Enter completed assignments"
+        required
+    >
+</div>
+
+<div class="form-group">
+    <label>Assignment Completion Rate</label>
+    <input
+        type="text"
+        id="completion_rate"
+        placeholder="Calculated automatically"
+        readonly
+    >
+</div>
+
+            <div class="form-group">
+                <label>Daily Sleep Hours</label>
+                <input
+                    type="number"
+                    name="sleep_hours"
+                    step="0.1"
+                    min="4"
+                    max="9"
+                    placeholder="4 - 9 hours"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Class Participation Score (0–10)</label>
+                <small class="field-description">
+                    Rate how actively you answer questions, ask doubts,
+                    participate in discussions, and take part in class activities.
+                    Enter a score from 0 (very low participation) to 10 (very active).
+                </small>
+                <input
+                    type="number"
+                    name="participation"
+                    min="0"
+                    max="10"
+                    placeholder="0 - 10"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="predict-button">
+                Predict Performance
+            </button>
+
+        </form>
+
+    </div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const totalInput = document.querySelector('input[name="total_assignments"]');
+    const completedInput = document.querySelector('input[name="assignments_completed"]');
+    const rateInput = document.getElementById("completion_rate");
+
+    function updateCompletionRate() {
+        const total = Number(totalInput.value);
+        const completed = Number(completedInput.value);
+
+        if (
+            totalInput.value !== "" &&
+            completedInput.value !== "" &&
+            total > 0 &&
+            completed >= 0 &&
+            completed <= total
+        ) {
+            const rate = (completed / total) * 100;
+            rateInput.value = rate.toFixed(1) + "%";
+        } else {
+            rateInput.value = "";
+        }
+    }
+
+    totalInput.addEventListener("input", updateCompletionRate);
+    completedInput.addEventListener("input", updateCompletionRate);
+});
+</script>
+</body>
+</html>

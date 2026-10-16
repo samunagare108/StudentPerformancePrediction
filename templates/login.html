@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Student Performance</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0b0b12;
+            color: white;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+
+            background: #151521;
+
+            padding: 40px 35px;
+
+            border-radius: 20px;
+
+            border: 1px solid #29293a;
+
+            box-shadow:
+                0 0 35px rgba(180, 80, 255, 0.15);
+        }
+
+        .logo {
+            text-align: center;
+
+            font-size: 24px;
+            font-weight: bold;
+
+            margin-bottom: 10px;
+
+            background: linear-gradient(
+                90deg,
+                #ff5fbc,
+                #8f63ff
+            );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            text-align: center;
+
+            color: #aaaabd;
+
+            font-size: 14px;
+
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+
+            color: #d0d0dc;
+        }
+
+        input,
+        select {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            background: #0f0f18;
+
+            color: white;
+
+            border: 1px solid #303044;
+
+            border-radius: 10px;
+
+            outline: none;
+
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #9b65ff;
+        }
+
+        .login-button {
+            width: 100%;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            background: linear-gradient(
+                90deg,
+                #ff5fbc,
+                #8f63ff
+            );
+
+            margin-top: 10px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-1px);
+        }
+
+        .error {
+            background: rgba(255, 80, 100, 0.1);
+
+            border: 1px solid rgba(255, 80, 100, 0.3);
+
+            color: #ff8c9c;
+
+            padding: 10px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+
+            text-align: center;
+
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+
+            .login-container {
+                padding: 30px 22px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="logo">
+            Student Performance
+        </div>
+
+        <p class="subtitle">
+            AI-Based Student Analytics System
+        </p>
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+        <form action="/login" method="POST">
+
+            <div class="form-group">
+
+                <label>
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Enter username"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter password"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Login As
+                </label>
+
+                <select name="role" required>
+
+                    <option value="">
+                        Select Role
+                    </option>
+
+                    <option value="student">
+                        Student
+                    </option>
+
+                    <option value="teacher">
+                        Teacher
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+                Login
+            </button>
+
+        </form>
+
+        <p style="text-align:center;margin-top:20px;color:#aaaabd;font-size:14px;">New here? <a href="/register" style="color:#d4a2ff;text-decoration:none;">Create an account</a></p>
+
+    </div>
+
+</body>
+
+</html>

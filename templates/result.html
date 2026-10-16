@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Prediction Result</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+    
+        body {
+            font-family: Arial, sans-serif;
+            background: #0b0b12;
+            color: white;
+    
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+    
+        .page {
+            width: 100%;
+            max-width: 1100px;
+            margin: auto;
+        }
+    
+        /* Navigation */
+    
+        .navbar {
+            width: 100%;
+    
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+    
+            padding: 15px 20px;
+            margin-bottom: 30px;
+    
+            background: #151521;
+            border: 1px solid #29293a;
+            border-radius: 14px;
+        }
+    
+        .logo {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+         
+        .nav-links a {
+            color: #aaaabd;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    
+        .nav-links a:hover {
+            color: white;
+        }
+    
+        /* Result Card */
+    
+        .container {
+            width: 100%;
+            max-width: 550px;
+            margin: auto;
+    
+            text-align: center;
+    
+            background: #151521;
+            padding: 45px 30px;
+            border-radius: 20px;
+    
+            box-shadow: 0 0 30px rgba(180, 80, 255, 0.15);
+        }
+    
+        h1 {
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+    
+        .score-label {
+            color: #b8b8c7;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+    
+        .score {
+            font-size: 60px;
+            font-weight: bold;
+    
+            background: linear-gradient(
+                90deg,
+                #ff7ac8,
+                #a970ff
+            );
+    
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+    
+            margin-bottom: 25px;
+        }
+    
+        .performance {
+            display: inline-block;
+    
+            padding: 12px 28px;
+            border-radius: 30px;
+    
+            background: rgba(169, 112, 255, 0.15);
+            border: 1px solid rgba(169, 112, 255, 0.4);
+    
+            font-size: 20px;
+            font-weight: bold;
+    
+            margin-bottom: 30px;
+        }
+    
+        .recommendation {
+            margin: 20px 0 30px;
+            padding: 18px;
+    
+            border-radius: 12px;
+    
+            background: #0f0f18;
+            border: 1px solid #303044;
+        }
+    
+        .recommendation h3 {
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+    
+        .recommendation p {
+            color: #b8b8c7;
+            line-height: 1.6;
+        }
+    
+        .back-button {
+            display: inline-block;
+    
+            text-decoration: none;
+            color: white;
+    
+            padding: 12px 24px;
+            border-radius: 10px;
+    
+            background: linear-gradient(
+                90deg,
+                #ff5fbc,
+                #8f63ff
+            );
+    
+            transition: transform 0.2s ease;
+        }
+    
+        .back-button:hover {
+            transform: translateY(-2px);
+        }
+    
+        /* Mobile */
+    
+        @media (max-width: 600px) {
+    
+            body {
+                padding: 20px 15px;
+            }
+    
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+    
+            .nav-links {
+                gap: 18px;
+            }
+    
+            .container {
+                padding: 35px 20px;
+            }
+    
+            h1 {
+                font-size: 26px;
+            }
+    
+            .score {
+                font-size: 48px;
+            }
+        }
+
+        .input-summary {
+            margin: 25px 0;
+            padding: 20px;
+        
+            background: #0f0f18;
+            border: 1px solid #303044;
+            border-radius: 12px;
+        }
+        
+        .input-summary h3 {
+            margin-bottom: 18px;
+            font-size: 18px;
+        }
+        
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .input-grid div {
+            padding: 12px;
+        
+            background: #151521;
+            border-radius: 10px;
+        }
+        
+        .input-grid span {
+            display: block;
+            color: #aaaabd;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        
+        .input-grid strong {
+            font-size: 14px;
+        }
+        
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+
+        
+        .nav-right a {
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            padding: 9px 16px;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #ff5fbc, #8f63ff);
+            font-size: 13px;
+            border-bottom: none;
+        }
+
+        .nav-right a:hover {
+            opacity: 0.9;
+            color: white;
+        }
+    
+
+        .nav-right a:hover {
+            opacity: 0.9;
+            color: white;
+        }
+    
+
+.nav-right a:hover {
+    color: #ff5fbc;
+}
+        
+        @media (max-width: 500px) {
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style></head>
+
+<body>
+
+    <div class="page">
+
+        <nav class="navbar">
+
+            <div class="logo">
+                Student Performance
+            </div>
+        
+            
+        
+
+<div class="nav-right">
+    <a href="/predict-form">Predict</a>
+    <a href="/history">History</a>
+    <a href="{{ url_for('teacher_dashboard') if session.get('role', '')|lower == 'teacher' else url_for('student_dashboard') }}">Dashboard</a>
+</div>    
+        
+        </nav>
+        
+        
+        <div class="container">
+        
+            <h1>Student Performance Result</h1>
+        
+            <p>Student Name: {{ student_name }}</p>
+            <p>Student ID: {{ student_id }}</p>
+        
+        
+            <div class="input-summary">
+        
+                <h3>Student Input Summary</h3>
+        
+                <div class="input-grid">
+        
+                    <div>
+                        <span>Study Hours</span>
+                        <strong>{{ study_hours }} hrs</strong>
+                    </div>
+        
+                    <div>
+                        <span>Attendance</span>
+                        <strong>{{ attendance }}%</strong>
+                    </div>
+        
+                    <div>
+                        <span>Previous Score</span>
+                        <strong>{{ previous_score }}</strong>
+                    </div>
+        
+                    <div>
+                        <span>Assignments</span>
+                        <strong>{{ assignments_completed }}/10</strong>
+                    </div>
+        
+                    <div>
+                        <span>Sleep Hours</span>
+                        <strong>{{ sleep_hours }} hrs</strong>
+                    </div>
+        
+                    <div>
+                        <span>Participation</span>
+                        <strong>{{ participation }}/10</strong>
+                    </div>
+        
+                </div>
+        
+            </div>
+        
+        
+            <p class="score-label">
+                Predicted Final Score
+            </p>
+        
+            <div class="score">
+                {{ predicted_score }} / 100
+            </div>
+        
+            <div class="performance">
+                {{ performance }}
+            </div>
+        
+            <div class="recommendation">
+        
+                <h3>Recommendation</h3>
+        
+                <p>
+                    {{ recommendation }}
+                </p>
+        
+            </div>
+        
+            <a href="/predict-form" class="back-button">
+                Predict Another Student
+            </a>
+        
+        </div>
+
+    </div>
+
+</body>
+</html>

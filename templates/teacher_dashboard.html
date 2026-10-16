@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Teacher Dashboard</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0b0b12;
+            color: white;
+            min-height: 100vh;
+            padding: 25px 20px;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 15px 20px;
+            margin-bottom: 35px;
+
+            background: #151521;
+            border: 1px solid #29293a;
+            border-radius: 14px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .welcome {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .logout {
+            text-decoration: none;
+            color: white;
+
+            padding: 9px 16px;
+
+            border-radius: 8px;
+
+            background: linear-gradient(
+                90deg,
+                #ff5fbc,
+                #8f63ff
+            );
+
+            font-size: 13px;
+            font-weight:600;
+        }
+
+        .hero {
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(
+                90deg,
+                #ff5fbc,
+                #8f63ff
+            );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: #aaaabd;
+            line-height: 1.6;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #151521;
+            border: 1px solid #29293a;
+            border-radius: 16px;
+            padding: 22px;
+        }
+
+        .stat-card h3 {
+            color: #aaaabd;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card p {
+            font-size: 28px;
+            font-weight: bold;
+
+            background: linear-gradient(
+                90deg,
+                #ff5fbc,
+                #8f63ff
+            );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section {
+            background: #151521;
+            border: 1px solid #29293a;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            margin-top:25px;
+        }
+
+        .section h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .section p {
+            color: #aaaabd;
+            line-height: 1.6;
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: nowrap;
+            align-items: center;
+        }
+        
+        .actions .action {
+            flex: 1;
+        }
+
+        .action {
+            text-decoration: none;
+            color: white;
+        
+            padding: 16px;
+        
+            border-radius: 10px;
+        
+            background: #0f0f18;
+            border: 1px solid #303044;
+        
+            text-align: center;
+        
+            transition: 0.2s ease;
+        }
+
+        .action:hover {
+            transform: translateY(-2px);
+            border-color: #8f63ff;
+        }
+
+        .risk {
+            margin-top: 20px;
+            padding: 18px;
+
+            background: #0f0f18;
+            border: 1px solid #303044;
+
+            border-radius: 12px;
+        }
+
+        .risk strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .risk span {
+            color: #aaaabd;
+            font-size: 14px;
+        }
+
+        @media (max-width: 850px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .actions {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 20px 15px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+        }
+        .section-card {
+            background: #151521;
+            border: 1px solid #29293a;
+            border-radius: 18px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+        
+        .section-header {
+            margin-bottom: 20px;
+        }
+        
+        .section-header h2 {
+            margin-bottom: 6px;
+        }
+        
+        .section-header p {
+            color: #aaaabd;
+            font-size: 14px;
+        }
+        
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+        
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #29293a;
+        }
+        
+        th {
+            color: #aaaabd;
+            font-size: 13px;
+        }
+        
+        td {
+            color: #eeeeF5;
+            font-size: 14px;
+        }
+        .export-button {
+            text-decoration: none;
+            color: white;
+
+            padding: 9px 16px;
+
+            border-radius: 8px;
+
+            background: linear-gradient(
+                90deg,
+                #ff5fbc,
+                #8f63ff
+            );
+
+            font-size: 13px;
+            font-weight:600;
+        }
+        
+        .export-button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+        .actions{
+            margin-top:20px;
+        }
+        .charts-row {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+        }
+        
+        .charts-row .section-card {
+            flex: 1;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="page">
+
+        <nav class="navbar">
+
+            <div class="logo">
+                Student Performance
+            </div>
+
+            <div class="nav-right">
+
+                <span class="welcome">
+                    Welcome, {{ username }}
+                </span>
+
+
+                
+                <a href="/bulk-upload" class="export-button">Bulk Upload</a>
+                <a href="/export" class="export-button">
+                    Export Student Report
+                </a>
+                
+    
+                <a href="/logout" class="logout">
+                    Logout
+                </a>
+
+            </div>
+
+        </nav>
+
+
+        <section class="hero">
+
+            <h1>
+                Teacher <span>Dashboard</span>
+            </h1>
+
+            <p>
+                Monitor student performance and analyze academic progress.
+            </p>
+
+        </section>
+
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <h3>
+                    Total Students
+                </h3>
+
+                <p>{{ total_students }}</p>
+
+            </div>
+           
+
+            <div class="stat-card">
+
+                <h3>
+                    Average Score
+                </h3>
+
+                <p>{{ average_score }}</p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>
+                    High Risk
+                </h3>
+
+                <p>{{ high_risk }}</p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>
+                    Predictions
+                </h3>
+
+                <p>{{ total_students }}</p>
+
+            </div>
+
+        </div>
+
+        <div class="section-card">
+
+            <div class="section-header">
+                <h2>High-Risk Students</h2>
+                <p>Students who may need additional academic support</p>
+            </div>
+        
+            <div class="table-container">
+        
+                <table>
+        
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Student ID</th>
+                            <th>Predicted Score</th>
+                            <th>Performance</th>
+                            <th>Risk Level</th>
+                        </tr>
+                    </thead>
+        
+                    <tbody>
+        
+                        {% if high_risk_students %}
+        
+                            {% for student in high_risk_students %}
+        
+                            <tr>
+                                <td>
+    <a href="/student-analytics/{{ student[1] }}"
+       style="color: #f472b6; text-decoration: none; font-weight: 600;">
+        {{ student[0] }}
+    </a>
+</td>
+                                <td>{{ student[1] }}</td>
+                                <td>{{ student[2] }}/100</td>
+                                <td>{{ student[3] }}</td>
+                                <td>{{ student[4] }}</td>
+                            </tr>
+        
+                            {% endfor %}
+        
+                        {% else %}
+        
+                            <tr>
+                                <td colspan="5">
+                                    No high-risk students found.
+                                </td>
+                            </tr>
+        
+                        {% endif %}
+        
+                    </tbody>
+        
+                </table>
+        
+            </div>
+        
+        </div>
+
+
+        <div class="section">
+
+            <h2>
+                All Students
+            </h2>
+
+            <p>
+                View the latest academic status and prediction of all students.
+            </p>
+
+            <div class="actions">
+
+                <a href="/all-students"
+                   class="action"
+                   style="
+                       display:inline-flex;
+                       width:fit-content;
+                       min-width:160px;
+                       padding:10px 18px;
+                       font-size:14px;
+                       justify-self:start;
+                       align-self:flex-start;
+                   ">
+                    View All Students →
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="section">
+
+            <h2>
+                Student Analytics
+            </h2>
+
+            <p>
+                View student performance, identify students who may need
+                additional support, and analyze academic trends.
+            </p>
+
+            <div class="actions">
+                <a href="/predict-form" class="action">
+                    Performance Prediction
+                </a>
+
+                <a href="/dashboard" class="action">
+                    View Analytics
+                </a>
+
+                <a href="/history" class="action">
+                    Prediction History
+                </a>
+
+                <a href="/export" class="action">
+                    Export CSV
+                </a>
+
+            </div>
+
+        </div>
+        <div class="charts-row">
+        <div class="section-card">
+
+            <div class="section-header">
+                <h2>Performance Distribution</h2>
+                <p>Overview of student performance levels</p>
+            </div>
+        
+            <div style="height: 320px;">
+                <canvas id="performanceChart"></canvas>
+            </div>
+        
+        </div>
+
+        <div class="section-card">
+
+            <div class="section-header">
+                <h2>Risk Distribution</h2>
+                <p>Overview of student academic risk levels</p>
+            </div>
+        
+            <div style="height: 320px;">
+                <canvas id="riskChart"></canvas>
+            </div>
+        
+        </div>
+    </div>
+
+        <div class="section">
+
+            <h2>
+                High-Risk Students
+            </h2>
+        
+            <p>
+                View students who may need additional academic support.
+            </p>
+        
+            <a href="/high-risk-students" class="action" style="display: inline-block; margin-top: 15px;" >
+                View High-Risk Students
+            </a>
+        
+        </div>
+
+
+        <div class="section">
+
+            <h2>
+                Bulk Prediction
+            </h2>
+        
+            <p>
+                Upload student data in CSV format to generate predictions
+                for multiple students at once.
+            </p>
+        
+            <a href="/bulk-upload" class="action" style="display: inline-block; margin-top: 15px;">
+                Open Bulk Prediction
+            </a>
+        
+        </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const performanceData = {
+            excellent: {{ performance_data["Excellent"] }},
+            good: {{ performance_data["Good"] }},
+            average: {{ performance_data["Average"] }},
+            poor: {{ performance_data["Poor"] }}
+        };
+    
+        const ctx = document.getElementById("performanceChart");
+    
+        new Chart(ctx, {
+            type: "doughnut",
+    
+            data: {
+                labels: [
+                    "Excellent",
+                    "Good",
+                    "Average",
+                    "Poor"
+                ],
+    
+                datasets: [{
+                    data: [
+                        performanceData.excellent,
+                        performanceData.good,
+                        performanceData.average,
+                        performanceData.poor
+                    ],
+    
+                    backgroundColor: [
+                        "#A855F7",
+                        "#EC4899",
+                        "#F59E0B",
+                        "#EF4444"
+                    ],
+    
+                    borderColor: "#151521",
+                    borderWidth: 3
+                }]
+            },
+    
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+    
+                plugins: {
+                    legend: {
+                        position: "bottom",
+    
+                        labels: {
+                            color: "#FFFFFF"
+                        }
+                    }
+                }
+            }
+        });
+    
+    
+        const riskData = {
+            low: {{ risk_data["Low Risk"] }},
+            medium: {{ risk_data["Medium Risk"] }},
+            high: {{ risk_data["High Risk"] }}
+        };
+    
+        const riskCtx = document.getElementById("riskChart");
+    
+        new Chart(riskCtx, {
+            type: "doughnut",
+    
+            data: {
+                labels: [
+                    "Low Risk",
+                    "Medium Risk",
+                    "High Risk"
+                ],
+    
+                datasets: [{
+                    data: [
+                        riskData.low,
+                        riskData.medium,
+                        riskData.high
+                    ],
+    
+                    backgroundColor: [
+                        "#10B981",
+                        "#F59E0B",
+                        "#F43F5E"
+                    ],
+    
+                    borderColor: "#151521",
+                    borderWidth: 3
+                }]
+            },
+    
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+    
+                plugins: {
+                    legend: {
+                        position: "bottom",
+    
+                        labels: {
+                            color: "#FFFFFF"
+                        }
+                    }
+                }
+            }
+        });
+    </script>

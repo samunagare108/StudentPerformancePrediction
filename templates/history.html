@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Prediction History</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0b0b12;
+            color: white;
+            height: 100vh;
+            overflow-y: auto;
+            
+            
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #aaaabd;
+            margin-bottom: 35px;
+        }
+
+        .table-container {
+            background: #151521;
+            border-radius: 18px;
+            padding: 20px;
+            height: 400px;
+            overflow-y: auto;
+            
+            
+            overflow-x: auto;
+            box-shadow: 0 0 35px rgba(180, 80, 255, 0.12);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #29293a;
+        }
+
+        th {
+            color: #c98cff;
+            font-size: 14px;
+        }
+
+        td {
+            color: #ddddE8;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .score {
+            font-weight: bold;
+        }
+
+        .performance {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: rgba(169, 112, 255, 0.15);
+            border: 1px solid rgba(169, 112, 255, 0.35);
+        }
+
+        .back-button {
+            display: block;
+            width: fit-content;
+            margin: 30px auto 0;
+
+            padding: 12px 24px;
+            border-radius: 10px;
+
+            background: linear-gradient(
+                90deg,
+                #ff5fbc,
+                #8f63ff
+            );
+
+            color: white;
+            text-decoration: none;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #aaaabd;
+        }
+
+        .navbar {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto 30px;
+        
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        
+            padding: 15px 20px;
+        
+            background: #151521;
+            border: 1px solid #29293a;
+            border-radius: 14px;
+        
+            box-shadow: 0 0 25px rgba(180, 80, 255, 0.10);
+        }
+        
+        .logo {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        
+        .nav-links a {
+            color: #aaaabd;
+            text-decoration: none;
+            font-size: 14px;
+        
+            transition: color 0.2s ease;
+        }
+        
+        .nav-links a:hover {
+            color: white;
+        }
+        
+        @media (max-width: 600px) {
+        
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        
+            .nav-links {
+                gap: 18px;
+            }
+        }
+    body::-webkit-scrollbar { display: none; }
+        body::-webkit-scrollbar { display: none; }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        
+        
+        .nav-right a {
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            padding: 9px 16px;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #ff5fbc, #8f63ff);
+            font-size: 13px;
+            border-bottom: none;
+        }
+
+        .nav-right a:hover {
+            opacity: 0.9;
+            color: white;
+        }
+    
+
+        .nav-right a:hover {
+            opacity: 0.9;
+            color: white;
+        }
+    
+
+        .nav-right a:hover {
+            color: #ff5fbc;
+        }
+    
+</style>
+</head>
+
+<body>
+    <nav class="navbar">
+
+        <div class="logo">
+            Student Performance
+        </div>
+
+<div class="nav-right">
+    <a href="/predict-form">Predict</a>
+    <a href="/history">History</a>
+    <a href="{{ url_for('teacher_dashboard') if session.get('role', '')|lower == 'teacher' else url_for('student_dashboard') }}">Dashboard</a>
+</div>    
+       
+           
+                
+    </nav>
+    <div class="container">
+
+        <h1>Prediction History</h1>
+
+        <p class="subtitle">
+            Previously generated student performance predictions
+        </p>
+
+        <div class="table-container">
+
+            {% if predictions %}
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Student ID</th>
+                        <th>Predicted Score</th>
+                        <th>Performance</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for prediction in predictions %}
+
+                    <tr>
+                        <td>{{ prediction[0] }}</td>
+                        <td>{{ prediction[1] }}</td>
+                        <td class="score">
+                            {{ prediction[2] }} / 100
+                        </td>
+                        <td>
+                            <span class="performance">
+                                {{ prediction[3] }}
+                            </span>
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="empty">
+                No prediction history available.
+            </div>
+
+            {% endif %}
+
+        </div>
+        <a href="/export" class="back-button">
+            Export CSV
+        </a>
+
+
+        <a href="/predict-form" class="back-button">
+            Make New Prediction
+        </a>
+
+    </div>
+
+</body>
+</html>
