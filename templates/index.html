@@ -113,50 +113,238 @@
         .navbar {
             max-width: 1100px;
             margin: 0 auto 30px;
-        
+
             display: flex;
             justify-content: space-between;
             align-items: center;
-        
+
             padding: 15px 20px;
-        
+
             background: #151521;
             border: 1px solid #29293a;
             border-radius: 14px;
         }
-        
+
         .logo {
             font-size: 18px;
             font-weight: bold;
         }
-        
+
         .nav-links {
             display: flex;
             gap: 20px;
         }
-        
+
         .nav-links a {
             color: #aaaabd;
             text-decoration: none;
             font-size: 14px;
         }
-        
+
         .nav-links a:hover {
             color: white;
         }
-        
+
         @media (max-width: 600px) {
-        
+
             .navbar {
                 flex-direction: column;
                 gap: 15px;
             }
-        
+
             .nav-links {
                 gap: 15px;
             }
         }
-    </style>
+
+
+/* Responsive layout additions */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+img, canvas, video, svg {
+    max-width: 100%;
+}
+
+input, select, textarea, button {
+    max-width: 100%;
+    font: inherit;
+}
+
+input, select, textarea {
+    min-width: 0;
+}
+
+table {
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+    .container, .page, .login-container, main {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .navbar, nav.navbar {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .nav-right, .nav-links, .nav-actions {
+        flex-wrap: wrap;
+        gap: 8px;
+        max-width: 100%;
+    }
+
+    .navbar a, button, .btn {
+        overflow-wrap: anywhere;
+    }
+
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        min-height: 42px;
+    }
+
+    img, canvas {
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding-top: 14px !important;
+        padding-bottom: 14px !important;
+    }
+
+    h1 {
+        font-size: clamp(1.45rem, 6vw, 2rem);
+        overflow-wrap: anywhere;
+    }
+
+    h2 {
+        font-size: clamp(1.15rem, 5vw, 1.5rem);
+    }
+
+    .container, .page, .login-container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .navbar {
+        align-items: flex-start;
+    }
+
+    .nav-right, .nav-links, .nav-actions {
+        width: 100%;
+    }
+
+    button, .btn {
+        min-height: 40px;
+    }
+}
+
+
+/* Shared mobile usability improvements */
+@media (max-width: 600px) {
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
+
+    body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    main, .container, .content, .dashboard-container,
+    .form-container, .card, .section, .input-summary {
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    button, input[type="submit"], input[type="button"],
+    .btn, .button, .action-button, .export-button,
+    .back-button, .predict-button, .login-button {
+        box-sizing: border-box;
+        min-height: 44px;
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        line-height: 1.35;
+        touch-action: manipulation;
+    }
+
+    input, select, textarea {
+        box-sizing: border-box;
+        max-width: 100%;
+        min-width: 0;
+        font-size: 16px;
+    }
+
+    .navbar, nav.navbar, nav {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .nav-links, .nav-right, .nav-actions {
+        min-width: 0;
+        max-width: 100%;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    table {
+        max-width: 100%;
+    }
+
+    img, canvas, video {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 400px) {
+    button, input[type="submit"], .btn, .button,
+    .action-button, .export-button, .back-button,
+    .predict-button, .login-button {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
+
+
+        .error-message {
+            background: rgba(255, 75, 110, 0.12);
+            border: 1px solid #ff5577;
+            color: #ff8da3;
+            padding: 13px 15px;
+            border-radius: 10px;
+            margin: 0 0 22px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+</style>
 </head>
 
 <body>
@@ -166,14 +354,14 @@
         <div class="logo">
             Student Performance
         </div>
-    
+
         <div class="nav-links">
             <a href="{{ url_for('teacher_dashboard') if session.get('role', '')|lower == 'teacher' else url_for('student_dashboard') }}">Dashboard</a>
             <a href="/predict-form">Predict</a>
-            
+
             <a href="/history">History</a>
         </div>
-    
+
     </nav>
 
     <div class="container">
@@ -184,8 +372,32 @@
             Predict a student's final academic performance using machine learning.
         </p>
 
+        {% if error %}
+            <div class="error-message" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+
         <form action="/predict" method="POST">
 
+            <div class="section-title">
+                Whose prediction do you want to make?
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="radio" name="prediction_type" value="myself"
+                           style="width:auto; margin-right:8px;" required>
+                    Myself
+                </label>
+                <label>
+                    <input type="radio" name="prediction_type" value="friend"
+                           style="width:auto; margin-right:8px;">
+                    Friend
+                </label>
+            </div>
+
+            <div id="student-information-section">
             <div class="section-title">
                 Student Information
             </div>
@@ -208,6 +420,8 @@
                     placeholder="Example: S001"
                     required
                 >
+            </div>
+
             </div>
 
             <div class="section-title">
@@ -352,5 +566,31 @@ document.addEventListener("DOMContentLoaded", function () {
     completedInput.addEventListener("input", updateCompletionRate);
 });
 </script>
-</body>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const options = document.querySelectorAll('input[name="prediction_type"]');
+    const section = document.getElementById("student-information-section");
+    const nameInput = document.querySelector('input[name="student_name"]');
+    const idInput = document.querySelector('input[name="student_id"]');
+
+    function updateStudentFields() {
+        const selected = document.querySelector('input[name="prediction_type"]:checked');
+        const isFriend = selected && selected.value === "friend";
+
+        section.style.display = isFriend ? "" : "none";
+        nameInput.required = !!isFriend;
+        idInput.required = !!isFriend;
+
+        if (!isFriend) {
+            nameInput.value = "";
+            idInput.value = "";
+        }
+    }
+
+    options.forEach(option => option.addEventListener("change", updateStudentFields));
+    updateStudentFields();
+});
+</script>
+\n</body>
 </html>

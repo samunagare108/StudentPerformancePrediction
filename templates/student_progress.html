@@ -144,7 +144,183 @@
                 height: 320px;
             }
         }
-    </style>
+
+
+/* Responsive layout additions */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+img, canvas, video, svg {
+    max-width: 100%;
+}
+
+input, select, textarea, button {
+    max-width: 100%;
+    font: inherit;
+}
+
+input, select, textarea {
+    min-width: 0;
+}
+
+table {
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+    .container, .page, .login-container, main {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .navbar, nav.navbar {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .nav-right, .nav-links, .nav-actions {
+        flex-wrap: wrap;
+        gap: 8px;
+        max-width: 100%;
+    }
+
+    .navbar a, button, .btn {
+        overflow-wrap: anywhere;
+    }
+
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        min-height: 42px;
+    }
+
+    img, canvas {
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding-top: 14px !important;
+        padding-bottom: 14px !important;
+    }
+
+    h1 {
+        font-size: clamp(1.45rem, 6vw, 2rem);
+        overflow-wrap: anywhere;
+    }
+
+    h2 {
+        font-size: clamp(1.15rem, 5vw, 1.5rem);
+    }
+
+    .container, .page, .login-container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .navbar {
+        align-items: flex-start;
+    }
+
+    .nav-right, .nav-links, .nav-actions {
+        width: 100%;
+    }
+
+    button, .btn {
+        min-height: 40px;
+    }
+}
+
+
+/* Shared mobile usability improvements */
+@media (max-width: 600px) {
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
+
+    body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    main, .container, .content, .dashboard-container,
+    .form-container, .card, .section, .input-summary {
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    button, input[type="submit"], input[type="button"],
+    .btn, .button, .action-button, .export-button,
+    .back-button, .predict-button, .login-button {
+        box-sizing: border-box;
+        min-height: 44px;
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        line-height: 1.35;
+        touch-action: manipulation;
+    }
+
+    input, select, textarea {
+        box-sizing: border-box;
+        max-width: 100%;
+        min-width: 0;
+        font-size: 16px;
+    }
+
+    .navbar, nav.navbar, nav {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .nav-links, .nav-right, .nav-actions {
+        min-width: 0;
+        max-width: 100%;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    table {
+        max-width: 100%;
+    }
+
+    img, canvas, video {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 400px) {
+    button, input[type="submit"], .btn, .button,
+    .action-button, .export-button, .back-button,
+    .predict-button, .login-button {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
+
+</style>
 </head>
 
 <body>
@@ -170,6 +346,38 @@
     </div>
 
     {% if scores %}
+
+    <div class="chart-card" style="margin-bottom: 22px;">
+        <div class="chart-title">Progress Summary</div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px;">
+            <div style="padding:18px; border-radius:12px; background:#1b1828; border:1px solid #393047;">
+                <p style="color:#aaa; margin-bottom:8px;">Latest Score</p>
+                <h2 style="color:#ff4ecd;">{{ "%.2f"|format(scores[-1]|float) }}/100</h2>
+            </div>
+
+            <div style="padding:18px; border-radius:12px; background:#1b1828; border:1px solid #393047;">
+                <p style="color:#aaa; margin-bottom:8px;">Previous Score</p>
+                {% if scores|length > 1 %}
+                    <h2 style="color:#a78bfa;">{{ "%.2f"|format(scores[-2]|float) }}/100</h2>
+                {% else %}
+                    <h2 style="color:#a78bfa;">N/A</h2>
+                {% endif %}
+            </div>
+
+            <div style="padding:18px; border-radius:12px; background:#1b1828; border:1px solid #393047;">
+                <p style="color:#aaa; margin-bottom:8px;">Score Change</p>
+                {% if scores|length > 1 %}
+                    {% set change = (scores[-1]|float) - (scores[-2]|float) %}
+                    <h2 style="color:{{ '#34d399' if change > 0 else '#fb7185' if change < 0 else '#ddd' }};">
+                        {{ "+" if change > 0 else "" }}{{ "%.2f"|format(change) }}
+                    </h2>
+                {% else %}
+                    <h2 style="color:#ddd;">N/A</h2>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
     <div class="chart-card">
 

@@ -209,7 +209,7 @@
             gap: 15px;
             margin-top: 30px;
         }
-        
+
         .comparison-card {
             background: #0f0f18;
             border: 1px solid #29293a;
@@ -217,32 +217,32 @@
             padding: 20px;
             text-align: center;
         }
-        
+
         .comparison-card span {
             display: block;
             color: #aaaabd;
             font-size: 13px;
             margin-bottom: 10px;
         }
-        
+
         .comparison-card strong {
             display: block;
             font-size: 24px;
         }
-        
+
         .comparison-card small {
             display: block;
             margin-top: 7px;
             color: #77778a;
             font-size: 11px;
         }
-        
+
         @media (max-width: 700px) {
-        
+
             .comparison-grid {
                 grid-template-columns: 1fr;
             }
-        
+
         }
         .insight-grid {
             display: grid;
@@ -250,7 +250,7 @@
             gap: 15px;
             margin-top: 20px;
         }
-        
+
         .insight-card {
             background: #0f0f18;
             border: 1px solid #29293a;
@@ -258,38 +258,214 @@
             padding: 20px;
             text-align: center;
         }
-        
+
         .insight-card span {
             display: block;
             color: #aaaabd;
             font-size: 13px;
             margin-bottom: 10px;
         }
-        
+
         .insight-card strong {
             display: block;
             font-size: 20px;
         }
-        
+
         .insight-card small {
             display: block;
             margin-top: 8px;
             color: #77778a;
             font-size: 11px;
         }
-        
+
         .recommendation-card strong {
             font-size: 14px;
             line-height: 1.5;
         }
-        
+
         @media (max-width: 700px) {
             .insight-grid {
                 grid-template-columns: 1fr;
             }
         }
 
-    </style>
+
+
+/* Responsive layout additions */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+img, canvas, video, svg {
+    max-width: 100%;
+}
+
+input, select, textarea, button {
+    max-width: 100%;
+    font: inherit;
+}
+
+input, select, textarea {
+    min-width: 0;
+}
+
+table {
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+    .container, .page, .login-container, main {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .navbar, nav.navbar {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .nav-right, .nav-links, .nav-actions {
+        flex-wrap: wrap;
+        gap: 8px;
+        max-width: 100%;
+    }
+
+    .navbar a, button, .btn {
+        overflow-wrap: anywhere;
+    }
+
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        min-height: 42px;
+    }
+
+    img, canvas {
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding-top: 14px !important;
+        padding-bottom: 14px !important;
+    }
+
+    h1 {
+        font-size: clamp(1.45rem, 6vw, 2rem);
+        overflow-wrap: anywhere;
+    }
+
+    h2 {
+        font-size: clamp(1.15rem, 5vw, 1.5rem);
+    }
+
+    .container, .page, .login-container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .navbar {
+        align-items: flex-start;
+    }
+
+    .nav-right, .nav-links, .nav-actions {
+        width: 100%;
+    }
+
+    button, .btn {
+        min-height: 40px;
+    }
+}
+
+
+/* Shared mobile usability improvements */
+@media (max-width: 600px) {
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
+
+    body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    main, .container, .content, .dashboard-container,
+    .form-container, .card, .section, .input-summary {
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    button, input[type="submit"], input[type="button"],
+    .btn, .button, .action-button, .export-button,
+    .back-button, .predict-button, .login-button {
+        box-sizing: border-box;
+        min-height: 44px;
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        line-height: 1.35;
+        touch-action: manipulation;
+    }
+
+    input, select, textarea {
+        box-sizing: border-box;
+        max-width: 100%;
+        min-width: 0;
+        font-size: 16px;
+    }
+
+    .navbar, nav.navbar, nav {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .nav-links, .nav-right, .nav-actions {
+        min-width: 0;
+        max-width: 100%;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    table {
+        max-width: 100%;
+    }
+
+    img, canvas, video {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 400px) {
+    button, input[type="submit"], .btn, .button,
+    .action-button, .export-button, .back-button,
+    .predict-button, .login-button {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
+
+</style>
 
 </head>
 
@@ -335,16 +511,16 @@
                     <strong>{{ current_score }}</strong>
                     <small>Latest prediction</small>
                 </div>
-            
+
                 <div class="comparison-card">
                     <span>What-If Score</span>
                     <strong>{{ predicted_score }}</strong>
                     <small>New scenario</small>
                 </div>
-            
+
                 <div class="comparison-card">
                     <span>Possible Change</span>
-            
+
                     <strong>
                         {% if improvement > 0 %}
                             +{{ improvement }}
@@ -354,10 +530,10 @@
                             0
                         {% endif %}
                     </strong>
-            
+
                     <small>Score difference</small>
                 </div>
-            
+
             </div>
 
             <div class="score">
@@ -367,7 +543,7 @@
             <p class="score-text">
                 out of 100
             </p>
-            
+
             <div class="insight-grid">
 
                 <div class="insight-card">
@@ -375,19 +551,19 @@
                     <strong>{{ performance }}</strong>
                     <small>Expected performance level</small>
                 </div>
-            
+
                 <div class="insight-card">
                     <span>Risk Level</span>
                     <strong>{{ risk_level }}</strong>
                     <small>Based on predicted score</small>
                 </div>
-            
+
                 <div class="insight-card recommendation-card">
                     <span>Recommendation</span>
                     <strong>{{ recommendation }}</strong>
                     <small>Personalized guidance</small>
                 </div>
-            
+
             </div>
 
             <div class="input-summary">

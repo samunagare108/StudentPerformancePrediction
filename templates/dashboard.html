@@ -147,14 +147,14 @@
         .chart-container {
             max-width: 450px;
             margin: 30px auto;
-        
+
             background: #151521;
             border: 1px solid #29293a;
             border-radius: 18px;
-        
+
             padding: 20px;
         }
-        
+
         .chart-container canvas {
             max-width: 300px;
             max-height: 300px;
@@ -165,18 +165,18 @@
         .metrics-section {
             margin: 30px 0;
         }
-        
+
         .metrics-section h2 {
             text-align: center;
             margin-bottom: 20px;
         }
-        
+
         .metrics-cards {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
-        
+
         .metric-card {
             background: #151521;
             border: 1px solid #29293a;
@@ -184,27 +184,27 @@
             padding: 25px;
             text-align: center;
         }
-        
+
         .metric-card h3 {
             color: #aaaabd;
             font-size: 15px;
             margin-bottom: 12px;
         }
-        
+
         .metric-card p {
             font-size: 32px;
             font-weight: bold;
-        
+
             background: linear-gradient(
                 90deg,
                 #ff5fbc,
                 #8f63ff
             );
-        
+
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
+
         @media (max-width: 800px) {
             .metrics-cards {
                 grid-template-columns: 1fr;
@@ -214,63 +214,63 @@
         <div class="chart-container">
 
             <h2>Performance Distribution</h2>
-        
+
             <canvas id="performanceChart"></canvas>
-        
+
         </div>
 
         .model-info {
             max-width: 850px;
             margin: 30px auto;
-        
+
             background: #151521;
             border: 1px solid #29293a;
             border-radius: 18px;
-        
+
             padding: 25px;
             text-align: center;
         }
-        
+
         .model-info h2 {
             margin-bottom: 15px;
         }
-        
+
         .model-info p {
             color: #aaaabd;
             line-height: 1.6;
             margin-bottom: 20px;
         }
-        
+
         .model-info strong {
             color: #d18aff;
         }
-        
+
         .feature-list {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 10px;
         }
-        
+
         .feature-list span {
             padding: 8px 14px;
-        
+
             background: #0f0f18;
             border: 1px solid #303044;
             border-radius: 20px;
-        
+
             color: #d8d8e5;
             font-size: 13px;
         }
-        
+
         <script>
-        
+
             const ctx = document.getElementById("performanceChart");
-        
+
             new Chart(ctx, {
-        
+
                 type: "doughnut",
-        
+
                 data: {
                     labels: [
                         "Excellent",
@@ -278,7 +278,7 @@
                         "Average",
                         "Poor"
                     ],
-        
+
                     datasets: [{
                         data: [
                             {{ excellent }},
@@ -286,22 +286,22 @@
                             {{ average }},
                             {{ poor }}
                         ],
-        
+
                         backgroundColor: [
                             "#8f63ff",
                             "#ff5fbc",
                             "#aaaabd",
                             "#666677"
                         ],
-        
+
                         borderWidth: 0
                     }]
                 },
-        
+
                 options: {
-        
+
                     responsive: true,
-        
+
                     plugins: {
                         legend: {
                             labels: {
@@ -310,11 +310,187 @@
                         }
                     }
                 }
-        
+
             });
-        
+
         </script>
-    </style>
+
+
+/* Responsive layout additions */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+img, canvas, video, svg {
+    max-width: 100%;
+}
+
+input, select, textarea, button {
+    max-width: 100%;
+    font: inherit;
+}
+
+input, select, textarea {
+    min-width: 0;
+}
+
+table {
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+    .container, .page, .login-container, main {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .navbar, nav.navbar {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .nav-right, .nav-links, .nav-actions {
+        flex-wrap: wrap;
+        gap: 8px;
+        max-width: 100%;
+    }
+
+    .navbar a, button, .btn {
+        overflow-wrap: anywhere;
+    }
+
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        min-height: 42px;
+    }
+
+    img, canvas {
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding-top: 14px !important;
+        padding-bottom: 14px !important;
+    }
+
+    h1 {
+        font-size: clamp(1.45rem, 6vw, 2rem);
+        overflow-wrap: anywhere;
+    }
+
+    h2 {
+        font-size: clamp(1.15rem, 5vw, 1.5rem);
+    }
+
+    .container, .page, .login-container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .navbar {
+        align-items: flex-start;
+    }
+
+    .nav-right, .nav-links, .nav-actions {
+        width: 100%;
+    }
+
+    button, .btn {
+        min-height: 40px;
+    }
+}
+
+
+/* Shared mobile usability improvements */
+@media (max-width: 600px) {
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
+
+    body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    main, .container, .content, .dashboard-container,
+    .form-container, .card, .section, .input-summary {
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    button, input[type="submit"], input[type="button"],
+    .btn, .button, .action-button, .export-button,
+    .back-button, .predict-button, .login-button {
+        box-sizing: border-box;
+        min-height: 44px;
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        line-height: 1.35;
+        touch-action: manipulation;
+    }
+
+    input, select, textarea {
+        box-sizing: border-box;
+        max-width: 100%;
+        min-width: 0;
+        font-size: 16px;
+    }
+
+    .navbar, nav.navbar, nav {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .nav-links, .nav-right, .nav-actions {
+        min-width: 0;
+        max-width: 100%;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    table {
+        max-width: 100%;
+    }
+
+    img, canvas, video {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 400px) {
+    button, input[type="submit"], .btn, .button,
+    .action-button, .export-button, .back-button,
+    .predict-button, .login-button {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
+
+</style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -353,7 +529,7 @@
 
         </div>
 
-        
+
 
         <div class="category-cards">
 
@@ -381,19 +557,19 @@
         <div class="chart-container">
 
             <h2>Performance Distribution</h2>
-        
+
             <canvas id="performanceChart"></canvas>
-        
+
         </div>
-        
+
         <script>
-        
+
             const ctx = document.getElementById("performanceChart");
-        
+
             new Chart(ctx, {
-        
+
                 type: "doughnut",
-        
+
                 data: {
                     labels: [
                         "Excellent",
@@ -401,7 +577,7 @@
                         "Average",
                         "Poor"
                     ],
-        
+
                     datasets: [{
                         data: [
                             {{ excellent }},
@@ -409,22 +585,22 @@
                             {{ average }},
                             {{ poor }}
                         ],
-        
+
                         backgroundColor: [
                             "#8f63ff",
                             "#ff5fbc",
                             "#aaaabd",
                             "#666677"
                         ],
-        
+
                         borderWidth: 0
                     }]
                 },
-        
+
                 options: {
-        
+
                     responsive: true,
-        
+
                     plugins: {
                         legend: {
                             labels: {
@@ -433,30 +609,30 @@
                         }
                     }
                 }
-        
+
             });
-        
+
         </script>
         <div class="model-info">
 
             <h2>About the Model</h2>
-        
+
             <p>
                 This system uses <strong>Linear Regression</strong>
                 to predict a student's final academic score.
             </p>
-        
+
             <div class="feature-list">
-        
+
                 <span>Study Hours</span>
                 <span>Attendance</span>
                 <span>Previous Score</span>
                 <span>Assignments Completed</span>
                 <span>Sleep Hours</span>
                 <span>Participation</span>
-        
+
             </div>
-        
+
         </div>
 
         <div class="buttons">

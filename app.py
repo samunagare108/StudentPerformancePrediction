@@ -34,7 +34,7 @@ def login():
         cursor = conn.cursor()
 
         cursor.execute("""
-            SELECT id, username, password, role
+            SELECT id, username, password, role, student_id
             FROM users
             WHERE username = %s AND role = %s
         """, (username, role))
@@ -48,6 +48,9 @@ def login():
             session["user_id"] = user[0]
             session["username"] = user[1]
             session["role"] = user[3]
+
+            if user[3] == "student":
+                session["registered_student_id"] = user[4]
 
             if user[3] == "student":
                 return redirect(url_for("student_dashboard"))
@@ -69,8 +72,17 @@ def register():
         password = request.form.get("password", "")
         student_name = request.form.get("student_name", "").strip()
         student_id = request.form.get("student_id", "").strip()
+
         role = request.form.get("role", "").strip()
         teacher_code = request.form.get("teacher_code", "")
+
+        print(
+            "DEBUG PREDICT:",
+            "role =", role,
+            "| form student_name =", repr(request.form.get("student_name")),
+            "| final student_name =", repr(student_name),
+            "| student_id =", repr(student_id)
+        )
 
         if not username or not password:
             return render_template("register.html", error="Please fill in all required fields.")
@@ -1121,29 +1133,45 @@ def student_history():
     conn = psycopg.connect(os.environ["DATABASE_URL"])
     cursor = conn.cursor()
 
-    cursor.execute("""
-        SELECT
-            student_name,
-            student_id,
-            predicted_score,
-            performance,
-            risk_level,
-            recommendation
-        FROM predictions
-        WHERE user_id = %s
-        ORDER BY id DESC
-    """, (session["user_id"],))
+    try:
+        cursor.execute(
+            "SELECT student_id FROM users WHERE id = %s",
+            (session["user_id"],)
+        )
+        student_row = cursor.fetchone()
 
-    predictions = cursor.fetchall()
+        if not student_row or not student_row[0]:
+            predictions = []
+        else:
+            registered_student_id = str(student_row[0]).strip()
 
-    conn.close()
+            cursor.execute("""
+                SELECT
+                    student_name,
+                    student_id,
+                    predicted_score,
+                    performance,
+                    risk_level,
+                    recommendation
+                FROM predictions
+                WHERE user_id = %s
+                  AND student_id = %s
+                ORDER BY id DESC
+            """, (session["user_id"], registered_student_id))
+
+            predictions = cursor.fetchall()
+
+    finally:
+        cursor.close()
+        conn.close()
 
     return render_template(
         "student_history.html",
         username=session.get("username"),
         predictions=predictions
-    ) 
-    
+    )
+
+
 @app.route("/logout")
 def logout():
 
@@ -1157,43 +1185,53 @@ def predict():
     if "user_id" not in session:
         return redirect(url_for("login"))
 
-    if session.get("role") not in ["student", "teacher"]:
+    role = session.get("role")
+    if role not in ["student", "teacher"]:
         return "Access denied."
-
-    student_name = request.form.get("student_name", "").strip()
-    student_id = request.form.get("student_id", "").strip()
-
-    if not student_name:
-        return "Student Name cannot be empty."
-
-    if not student_id:
-        return "Student ID cannot be empty."
 
     conn = psycopg.connect(os.environ["DATABASE_URL"])
     cursor = conn.cursor()
 
-    if session.get("role") == "student":
-        cursor.execute(
-            "SELECT student_name, student_id FROM users WHERE id = %s AND role = 'student'",
-            (session["user_id"],)
+    prediction_type = request.form.get("prediction_type", "").strip().lower()
+    student_name = request.form.get("student_name", "").strip()
+    student_id = request.form.get("student_id", "").strip()
+
+    if role == "student" and prediction_type not in ("myself", "friend"):
+        conn.close()
+        return render_template(
+            "index.html",
+            error="Please select whether this prediction is for yourself or a friend."
         )
-        registered_student = cursor.fetchone()
 
-        if not registered_student or not registered_student[1]:
+    if role == "student" and prediction_type == "myself":
+        registered_student_id = str(session.get("registered_student_id") or "").strip()
+        student_id = registered_student_id
+
+        cursor.execute(
+            "SELECT username FROM users WHERE student_id = %s",
+            (registered_student_id,)
+        )
+        account_row = cursor.fetchone()
+
+        if not registered_student_id or not account_row:
             conn.close()
-            return "Your registered Student ID was not found. Please contact your teacher."
+            return render_template(
+                "index.html",
+                error="Could not find your registered student details. Please log in again."
+            )
 
-        registered_name, registered_id = registered_student
+        student_name = str(account_row[0]).strip()
 
-        if student_id.strip() != registered_id.strip():
-            conn.close()
-            return "Student ID mismatch. Please use your registered Student ID."
+    if not student_name:
+        conn.close()
+        return render_template("index.html", error="Student Name cannot be empty.")
 
-        student_id = registered_id.strip()
-        student_name = (registered_name or student_name).strip()
+    if not student_id:
+        conn.close()
+        return render_template("index.html", error="Student ID cannot be empty.")
 
-
-    
+    if role == "student" and prediction_type == "friend":
+        pass
 
 
     try:
@@ -1206,39 +1244,39 @@ def predict():
         participation = int(request.form["participation"])
     except (ValueError, KeyError):
         conn.close()
-        return "Please enter valid numeric values for all fields."
+        return render_template("index.html", error="Please enter valid numeric values for all fields.")
 
     if not 1 <= total_assignments <= 100:
         conn.close()
-        return "Total Assignments must be between 1 and 100."
+        return render_template("index.html", error="Total Assignments must be between 1 and 100.")
 
     if not 0 <= assignments_completed <= total_assignments:
         conn.close()
-        return "Completed Assignments must be between 0 and Total Assignments."
+        return render_template("index.html", error="Completed Assignments must be between 0 and Total Assignments.")
 
     completion_rate = (assignments_completed / total_assignments) * 100
     assignment_model_score = (completion_rate / 100) * 10
 
     if not 1 <= study_hours <= 8:
         conn.close()
-        return "Study Hours must be between 1 and 8."
+        return render_template("index.html", error="Study Hours must be between 1 and 8.")
 
     if not 50 <= attendance <= 100:
         conn.close()
-        return "Attendance must be between 50 and 100."
+        return render_template("index.html", error="Attendance must be between 50 and 100.")
 
     if not 40 <= previous_score <= 95:
         conn.close()
-        return "Previous Score must be between 40 and 95."
+        return render_template("index.html", error="Previous Score must be between 40 and 95.")
 
 
     if not 4 <= sleep_hours <= 9:
         conn.close()
-        return "Sleep Hours must be between 4 and 9."
+        return render_template("index.html", error="Sleep Hours must be between 4 and 9.")
 
     if not 0 <= participation <= 10:
         conn.close()
-        return "Participation must be between 0 and 10."
+        return render_template("index.html", error="Participation must be between 0 and 10.")
 
     prediction = model.predict([[
         study_hours,

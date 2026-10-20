@@ -162,7 +162,7 @@
             flex-wrap: nowrap;
             align-items: center;
         }
-        
+
         .actions .action {
             flex: 1;
         }
@@ -170,16 +170,16 @@
         .action {
             text-decoration: none;
             color: white;
-        
+
             padding: 16px;
-        
+
             border-radius: 10px;
-        
+
             background: #0f0f18;
             border: 1px solid #303044;
-        
+
             text-align: center;
-        
+
             transition: 0.2s ease;
         }
 
@@ -248,43 +248,43 @@
             padding: 25px;
             margin-top: 30px;
         }
-        
+
         .section-header {
             margin-bottom: 20px;
         }
-        
+
         .section-header h2 {
             margin-bottom: 6px;
         }
-        
+
         .section-header p {
             color: #aaaabd;
             font-size: 14px;
         }
-        
+
         .table-container {
             width: 100%;
             overflow-x: auto;
         }
-        
+
         table {
             width: 100%;
             border-collapse: collapse;
             min-width: 700px;
         }
-        
+
         th,
         td {
             padding: 15px;
             text-align: left;
             border-bottom: 1px solid #29293a;
         }
-        
+
         th {
             color: #aaaabd;
             font-size: 13px;
         }
-        
+
         td {
             color: #eeeeF5;
             font-size: 14px;
@@ -306,7 +306,7 @@
             font-size: 13px;
             font-weight:600;
         }
-        
+
         .export-button:hover {
             transform: translateY(-2px);
             opacity: 0.9;
@@ -319,18 +319,1283 @@
             gap: 20px;
             width: 100%;
         }
-        
+
         .charts-row .section-card {
             flex: 1;
         }
 
-    </style>
+
+
+/* Responsive layout additions */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+img, canvas, video, svg {
+    max-width: 100%;
+}
+
+input, select, textarea, button {
+    max-width: 100%;
+    font: inherit;
+}
+
+input, select, textarea {
+    min-width: 0;
+}
+
+table {
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+    .container, .page, .login-container, main {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .navbar, nav.navbar {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .nav-right, .nav-links, .nav-actions {
+        flex-wrap: wrap;
+        gap: 8px;
+        max-width: 100%;
+    }
+
+    .navbar a, button, .btn {
+        overflow-wrap: anywhere;
+    }
+
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        min-height: 42px;
+    }
+
+    img, canvas {
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding-top: 14px !important;
+        padding-bottom: 14px !important;
+    }
+
+    h1 {
+        font-size: clamp(1.45rem, 6vw, 2rem);
+        overflow-wrap: anywhere;
+    }
+
+    h2 {
+        font-size: clamp(1.15rem, 5vw, 1.5rem);
+    }
+
+    .container, .page, .login-container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .navbar {
+        align-items: flex-start;
+    }
+
+    .nav-right, .nav-links, .nav-actions {
+        width: 100%;
+    }
+
+    button, .btn {
+        min-height: 40px;
+    }
+}
+
+
+/* Shared mobile usability improvements */
+@media (max-width: 600px) {
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
+
+    body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    main, .container, .content, .dashboard-container,
+    .form-container, .card, .section, .input-summary {
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    button, input[type="submit"], input[type="button"],
+    .btn, .button, .action-button, .export-button,
+    .back-button, .predict-button, .login-button {
+        box-sizing: border-box;
+        min-height: 44px;
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        line-height: 1.35;
+        touch-action: manipulation;
+    }
+
+    input, select, textarea {
+        box-sizing: border-box;
+        max-width: 100%;
+        min-width: 0;
+        font-size: 16px;
+    }
+
+    .navbar, nav.navbar, nav {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .nav-links, .nav-right, .nav-actions {
+        min-width: 0;
+        max-width: 100%;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    table {
+        max-width: 100%;
+    }
+
+    img, canvas, video {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 400px) {
+    button, input[type="submit"], .btn, .button,
+    .action-button, .export-button, .back-button,
+    .predict-button, .login-button {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
+
+
+/* Teacher dashboard mobile overflow fix */
+@media (max-width: 600px) {
+    html, body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    body {
+        margin: 0;
+    }
+
+    .container, main, .content, .dashboard-container,
+    .page, .section, .navbar {
+        box-sizing: border-box;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .navbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        padding: 12px !important;
+    }
+
+    .navbar > *, .navbar a, .navbar button {
+        box-sizing: border-box;
+        max-width: 100%;
+        min-width: 0;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    h1, h2, h3, p {
+        overflow-wrap: anywhere;
+    }
+
+    .stats-grid, .stats-container, .dashboard-grid,
+    .cards-grid, .grid-container {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .table-container {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    button, .btn, a.button, input[type="submit"] {
+        min-height: 44px;
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+}
+
+
+/* Fix cramped dashboard action buttons on mobile */
+@media (max-width: 600px) {
+    .section a, .section button,
+    .card a, .card button,
+    .page a.btn, .page button.btn {
+        box-sizing: border-box;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    .section-header + div,
+    .section-header ~ div {
+        min-width: 0;
+    }
+
+    .section a, .card a {
+        white-space: normal;
+    }
+
+    canvas, svg {
+        max-width: 100%;
+    }
+}
+
+
+/* Uniform mobile action button layout */
+@media (max-width: 600px) {
+    .section-header ~ div a,
+    .section-header ~ div button,
+    .section a,
+    .section button,
+    .card a,
+    .card button {
+        box-sizing: border-box;
+        min-width: 0;
+        min-height: 48px;
+        width: auto;
+        max-width: 100%;
+        padding: 12px 10px;
+        font-size: 14px;
+        line-height: 1.35;
+        text-align: center;
+        white-space: normal;
+        overflow-wrap: normal;
+        word-break: normal;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .section-header ~ div,
+    .section .actions,
+    .section .action-buttons,
+    .section .button-group,
+    .card .actions,
+    .card .action-buttons,
+    .card .button-group {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .section h2, .section h3,
+    .card h2, .card h3 {
+        overflow-wrap: normal;
+        word-break: normal;
+    }
+}
+\n
+
+/* FINAL RESPONSIVE DASHBOARD LAYOUT */
+html {
+    width: 100%;
+    max-width: 100%;
+}
+
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.page {
+    width: 100%;
+    max-width: 1100px;
+    min-width: 0;
+    margin-inline: auto;
+}
+
+.stats,
+.actions,
+.charts-row,
+.navbar,
+.nav-right,
+.section,
+.section-card {
+    min-width: 0;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+.actions .action {
+    min-width: 0;
+    overflow-wrap: normal;
+    word-break: normal;
+    white-space: normal;
+}
+
+.charts-row {
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+.charts-row .section-card {
+    min-width: 0;
+}
+
+.section-card canvas {
+    display: block;
+    max-width: 100%;
+}
+
+.table-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 850px) {
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .charts-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .charts-row .section-card {
+        width: 100%;
+        margin-top: 16px;
+    }
+
+    .actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .actions .action {
+        display: flex;
+        width: 100% !important;
+        min-width: 0 !important;
+        min-height: 48px;
+        padding: 12px;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 14px;
+        line-height: 1.4;
+        overflow-wrap: break-word;
+    }
+
+    .navbar {
+        flex-wrap: wrap;
+        gap: 14px;
+    }
+
+    .nav-right {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 14px !important;
+    }
+
+    .page {
+        padding: 0;
+    }
+
+    .navbar {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        text-align: left;
+        padding: 16px !important;
+        margin-bottom: 24px;
+        gap: 14px;
+    }
+
+    .logo {
+        font-size: 17px;
+    }
+
+    .nav-right {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .welcome {
+        font-size: 16px;
+        overflow-wrap: anywhere;
+    }
+
+    .nav-right .export-button,
+    .nav-right .logout {
+        display: flex;
+        width: 100%;
+        min-height: 44px;
+        padding: 12px;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        white-space: normal;
+        overflow-wrap: normal;
+        line-height: 1.35;
+    }
+
+    .hero {
+        margin-bottom: 22px;
+    }
+
+    .hero h1 {
+        font-size: clamp(25px, 7vw, 32px);
+        line-height: 1.2;
+        overflow-wrap: normal;
+    }
+
+    .hero p,
+    .section p,
+    .section-header p {
+        font-size: 14px;
+        line-height: 1.55;
+        overflow-wrap: break-word;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 22px;
+    }
+
+    .stat-card {
+        padding: 16px 13px;
+        min-width: 0;
+    }
+
+    .stat-card h3 {
+        font-size: 12px;
+        line-height: 1.4;
+        overflow-wrap: normal;
+    }
+
+    .stat-card p {
+        font-size: clamp(22px, 6vw, 28px);
+        overflow-wrap: normal;
+    }
+
+    .section,
+    .section-card {
+        padding: 17px;
+        margin-top: 16px;
+        margin-bottom: 16px;
+        border-radius: 14px;
+    }
+
+    .section h2,
+    .section-header h2 {
+        font-size: 19px;
+        line-height: 1.3;
+        overflow-wrap: normal;
+        word-break: normal;
+    }
+
+    .actions {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+        width: 100%;
+        margin-top: 16px;
+    }
+
+    .actions .action,
+    .section > a.action {
+        display: flex !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100%;
+        min-height: 48px;
+        padding: 13px 12px !important;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        white-space: normal;
+        overflow-wrap: normal;
+        word-break: normal;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .charts-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+        width: 100%;
+    }
+
+    .charts-row .section-card {
+        width: 100%;
+        min-width: 0;
+        margin: 0;
+        padding: 16px;
+    }
+
+    .charts-row .section-header {
+        margin-bottom: 14px;
+    }
+
+    .charts-row .section-header h2 {
+        font-size: 18px;
+    }
+
+    .charts-row .section-card > div[style*="height"] {
+        height: 260px !important;
+        max-width: 100%;
+    }
+
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 650px;
+    }
+}
+
+@media (max-width: 360px) {
+    .stats {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .stat-card {
+        padding: 16px;
+    }
+}
+
+/* PERMANENT CHART LAYOUT FIX */
+.charts-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    width: 100%;
+    min-width: 0;
+}
+
+.charts-row > .section-card {
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.chart-wrap {
+    display: block !important;
+    position: relative;
+    width: 100%;
+    height: 360px;
+    min-width: 0;
+    grid-template-columns: none !important;
+}
+
+.chart-wrap canvas {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100%;
+}
+
+@media (max-width: 700px) {
+    .charts-row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .chart-wrap {
+        height: 360px;
+    }
+}
+
+/* UI polish: Teacher Dashboard */
+:root {
+    --bg: #09090f;
+    --panel: #13131f;
+    --panel-hover: #191927;
+    --border: #29293d;
+    --muted: #a5a5bd;
+    --pink: #ff5fbc;
+    --purple: #8f63ff;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    background:
+        radial-gradient(ellipse at 8% 0%, rgba(143,99,255,.10), transparent 35%),
+        radial-gradient(ellipse at 95% 18%, rgba(255,95,188,.06), transparent 30%),
+        var(--bg);
+    color: #f7f7fc;
+    line-height: 1.55;
+}
+
+.page { max-width: 1220px; }
+
+.navbar {
+    position: relative;
+    gap: 18px;
+    padding: 17px 22px;
+    background: rgba(19,19,31,.92);
+    border-color: var(--border);
+    box-shadow: 0 10px 35px rgba(0,0,0,.16);
+}
+
+.logo {
+    letter-spacing: -.35px;
+    font-size: 17px;
+}
+
+.welcome { color: #d1d1e1; font-size: 14px; }
+
+.nav-right {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.hero { margin-bottom: 26px; }
+
+.hero h1 {
+    font-size: clamp(29px, 4vw, 38px);
+    letter-spacing: -1.1px;
+    line-height: 1.2;
+}
+
+.hero p {
+    margin-top: 10px;
+    max-width: 680px;
+    font-size: 14px;
+}
+
+.stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.stat-card {
+    position: relative;
+    overflow: hidden;
+    padding: 23px;
+    background: linear-gradient(145deg, #171725, #11111b);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+}
+
+.stat-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 20px;
+    right: 20px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--pink), var(--purple));
+    opacity: .8;
+}
+
+.stat-card h3 {
+    font-size: 12px;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+    line-height: 1.5;
+}
+
+.stat-card p {
+    margin-top: 5px;
+    font-size: clamp(25px, 3vw, 32px);
+    letter-spacing: -.7px;
+}
+
+.section, .section-card {
+    background: linear-gradient(145deg, #151521, #11111a);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 23px;
+    margin-top: 22px;
+    box-shadow: 0 8px 28px rgba(0,0,0,.10);
+}
+
+.section h2, .section-header h2 {
+    font-size: 18px;
+    letter-spacing: -.3px;
+}
+
+.section p, .section-header p {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.section-header { margin-bottom: 18px; }
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 11px;
+    margin-top: 18px;
+}
+
+.actions .action {
+    flex: 0 1 auto;
+    min-width: 145px;
+}
+
+.action, .export-button, .logout {
+    min-height: 42px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform .18s ease, border-color .18s ease,
+                background .18s ease, opacity .18s ease;
+}
+
+.action {
+    background: #1a1a29;
+    border: 1px solid #34344a;
+}
+
+.export-button, .logout {
+    color: white;
+    background: linear-gradient(110deg, #e94fae, #8058f5);
+    border: 1px solid transparent;
+}
+
+.action:hover {
+    transform: translateY(-2px);
+    border-color: var(--purple);
+    background: #202033;
+}
+
+.export-button:hover, .logout:hover {
+    transform: translateY(-2px);
+    opacity: .92;
+}
+
+.charts-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    align-items: stretch;
+    margin-top: 22px;
+}
+
+.charts-row .section-card {
+    min-width: 0;
+    margin: 0;
+}
+
+.chart-wrap {
+    position: relative;
+    width: 100%;
+    height: 270px;
+    max-height: 320px;
+}
+
+.table-container {
+    border: 1px solid #29293c;
+    border-radius: 12px;
+    overflow-x: auto;
+}
+
+table {
+    min-width: 650px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+th, td { padding: 14px 16px; }
+
+th {
+    background: #1a1a29;
+    color: #c5c5da;
+    font-size: 11px;
+    letter-spacing: .55px;
+    text-transform: uppercase;
+}
+
+td {
+    color: #ededf6;
+    border-bottom-color: #252538;
+}
+
+tbody tr:last-child td { border-bottom: 0; }
+
+tbody tr:hover { background: rgba(143,99,255,.07); }
+
+a:focus-visible, button:focus-visible,
+input:focus-visible, select:focus-visible {
+    outline: 2px solid var(--pink);
+    outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .nav-right { gap: 8px; }
+}
+
+@media (max-width: 680px) {
+    body { padding: 16px 12px; }
+    .navbar { flex-direction: column; align-items: stretch; text-align: center; }
+    .nav-right { justify-content: center; }
+    .charts-row { grid-template-columns: minmax(0, 1fr); }
+    .chart-wrap { height: 250px; }
+    .section, .section-card { padding: 17px; }
+    .actions { flex-direction: column; align-items: stretch; }
+    .actions .action { width: 100%; }
+}
+
+@media (max-width: 420px) {
+    .stats { grid-template-columns: minmax(0, 1fr); }
+    .hero h1 { font-size: 28px; }
+    .stat-card { padding: 19px; }
+    .nav-right > a { flex: 1 1 auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; }
+}
+
+
+/* Full dashboard redesign */
+:root {
+    --redesign-bg: #090911;
+    --redesign-panel: #131321;
+    --redesign-line: rgba(190, 174, 255, .14);
+    --redesign-muted: #9d9bb8;
+    --redesign-pink: #ff65c3;
+    --redesign-purple: #9470ff;
+}
+
+body {
+    padding: 28px 30px 32px 286px !important;
+    background:
+        radial-gradient(ellipse at 80% 0%, rgba(148,112,255,.13), transparent 38%),
+        radial-gradient(ellipse at 50% 100%, rgba(255,101,195,.05), transparent 38%),
+        var(--redesign-bg) !important;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+}
+
+.teacher-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 100;
+    width: 254px;
+    padding: 27px 17px 18px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(15, 15, 26, .97);
+    border-right: 1px solid var(--redesign-line);
+    box-shadow: 15px 0 45px rgba(0,0,0,.15);
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 4px 7px 29px;
+}
+
+.brand-mark {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 42px;
+    border-radius: 14px;
+    color: white;
+    font-weight: 900;
+    font-size: 14px;
+    background: linear-gradient(140deg, var(--redesign-pink), var(--redesign-purple));
+    box-shadow: 0 7px 24px rgba(173, 92, 255, .25);
+}
+
+.sidebar-brand strong {
+    display: block;
+    color: #f8f5ff;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.sidebar-brand small, .sidebar-user small {
+    display: block;
+    margin-top: 4px;
+    color: #8986a7;
+    font-size: 9px;
+    letter-spacing: 1.15px;
+}
+
+.sidebar-label {
+    padding: 8px 11px 10px;
+    color: #777490;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.sidebar-label-tools { margin-top: 23px; }
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 3px 0;
+    padding: 12px 12px;
+    border: 1px solid transparent;
+    border-radius: 11px;
+    color: #aaa8c2;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    transition: .18s ease;
+}
+
+.sidebar-link span {
+    width: 20px;
+    text-align: center;
+    color: #a99bff;
+    font-size: 18px;
+}
+
+.sidebar-link:hover {
+    color: #fff;
+    background: rgba(255,255,255,.045);
+    border-color: var(--redesign-line);
+    transform: translateX(2px);
+}
+
+.sidebar-link.active {
+    color: #fff;
+    background: linear-gradient(100deg, rgba(255,101,195,.15), rgba(148,112,255,.15));
+    border-color: rgba(193,130,255,.24);
+    box-shadow: inset 3px 0 var(--redesign-pink);
+}
+
+.sidebar-bottom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    padding: 15px 8px 3px;
+    border-top: 1px solid var(--redesign-line);
+}
+
+.sidebar-avatar {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ff65c3, #9470ff);
+    color: white;
+    font-weight: 800;
+}
+
+.sidebar-user { min-width: 0; flex: 1; }
+.sidebar-user strong {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #f5f2ff;
+    font-size: 12px;
+}
+.sidebar-user small { letter-spacing: 0; font-size: 10px; }
+.sidebar-logout { color: #aaa6c6; text-decoration: none; font-size: 20px; }
+
+.page {
+    width: 100% !important;
+    max-width: 1500px !important;
+    margin: 0 auto !important;
+}
+
+.navbar {
+    margin-bottom: 28px !important;
+    padding: 13px 17px !important;
+    border-radius: 15px !important;
+    background: rgba(19,19,33,.75) !important;
+    border-color: var(--redesign-line) !important;
+    backdrop-filter: blur(14px);
+}
+
+.navbar .logo { font-size: 13px !important; color: #d7d2ed; }
+.nav-right { gap: 8px !important; }
+.welcome { font-size: 12px !important; color: #bdb9d5 !important; }
+.export-button, .logout { min-height: 36px !important; padding: 8px 11px !important; font-size: 11px !important; }
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 25px !important;
+    padding: 30px 30px 27px;
+    border: 1px solid var(--redesign-line);
+    border-radius: 20px;
+    background:
+        radial-gradient(ellipse at 88% 5%, rgba(148,112,255,.22), transparent 42%),
+        linear-gradient(115deg, #171527, #171323 60%, #21142a);
+}
+
+.hero::after {
+    content: "ACADEMIC INSIGHTS";
+    position: absolute;
+    right: 27px;
+    bottom: 23px;
+    color: rgba(230,218,255,.24);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.hero h1 {
+    font-size: clamp(30px, 3vw, 43px) !important;
+    letter-spacing: -1.7px !important;
+}
+.hero p { color: #aaa7c5 !important; font-size: 13px !important; margin-top: 11px !important; }
+
+.stats {
+    gap: 15px !important;
+    margin-bottom: 23px;
+}
+
+.stat-card {
+    min-height: 140px;
+    padding: 22px 20px !important;
+    border-radius: 17px !important;
+    border-color: var(--redesign-line) !important;
+    background: linear-gradient(145deg, #19182a, #11111d) !important;
+    box-shadow: 0 13px 32px rgba(0,0,0,.12);
+}
+.stat-card:nth-child(2) { background: linear-gradient(145deg, #171c2d, #11111d) !important; }
+.stat-card:nth-child(3) { background: linear-gradient(145deg, #28182a, #15111e) !important; }
+.stat-card:nth-child(4) { background: linear-gradient(145deg, #20192f, #12111e) !important; }
+.stat-card h3 { color: #aaa7c5 !important; }
+.stat-card p { margin-top: 14px !important; font-size: clamp(29px, 3vw, 38px) !important; }
+
+.section, .section-card {
+    margin-top: 20px !important;
+    padding: 24px !important;
+    border-radius: 18px !important;
+    border-color: var(--redesign-line) !important;
+    background: linear-gradient(145deg, rgba(22,22,37,.98), rgba(16,16,27,.98)) !important;
+    box-shadow: 0 12px 32px rgba(0,0,0,.12) !important;
+}
+.section h2, .section-header h2 { color: #f4f0ff; font-size: 17px !important; }
+.section p, .section-header p { color: var(--redesign-muted) !important; line-height: 1.7; }
+
+.charts-row { gap: 16px !important; margin-top: 20px !important; }
+.charts-row .section-card { margin-top: 0 !important; }
+.chart-wrap { height: 300px !important; max-height: none !important; }
+
+.table-container {
+    border-color: var(--redesign-line) !important;
+    border-radius: 13px !important;
+}
+table { min-width: 650px; }
+th { background: #1c1a2c !important; color: #aaa7c7 !important; }
+td { padding-top: 16px !important; padding-bottom: 16px !important; }
+
+.action {
+    border-radius: 10px !important;
+    border-color: var(--redesign-line) !important;
+    background: #1b1a2b !important;
+}
+.action:hover { background: #27213b !important; }
+
+@media (max-width: 1050px) {
+    body { padding-left: 245px !important; padding-right: 20px !important; }
+    .teacher-sidebar { width: 220px; }
+    .sidebar-brand { gap: 8px; }
+    .sidebar-brand strong { font-size: 11px; }
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+    .hero::after { display: none; }
+}
+
+@media (max-width: 760px) {
+    body { padding: 15px !important; }
+    .teacher-sidebar {
+        position: relative;
+        inset: auto;
+        width: 100%;
+        padding: 14px;
+        margin-bottom: 15px;
+        border: 1px solid var(--redesign-line);
+        border-radius: 16px;
+    }
+    .sidebar-brand { padding: 3px 5px 14px; }
+    .sidebar-label { padding-top: 7px; }
+    .sidebar-label-tools { margin-top: 6px; }
+    .sidebar-link { display: inline-flex; width: calc(50% - 5px); margin: 2px 1px; padding: 10px 8px; font-size: 11px; }
+    .sidebar-bottom { margin-top: 12px; }
+    .page { max-width: none !important; }
+    .navbar { flex-direction: column; align-items: stretch; }
+    .nav-right { justify-content: center; }
+    .hero { padding: 24px 20px; }
+    .charts-row { grid-template-columns: minmax(0, 1fr) !important; }
+    .chart-wrap { height: 270px !important; }
+    .section, .section-card { padding: 18px !important; }
+}
+
+@media (max-width: 430px) {
+    .stats { grid-template-columns: minmax(0, 1fr) !important; }
+    .sidebar-link { width: 100%; }
+    .nav-right > a { flex: 1 1 auto; }
+}
+
+
+/* Refined teacher analytics charts */
+#performance-charts {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 22px !important;
+    align-items: stretch;
+    margin: 24px 0 !important;
+}
+#performance-charts > .section-card {
+    min-width: 0;
+    padding: 24px !important;
+    border: 1px solid rgba(168, 85, 247, .22) !important;
+    border-radius: 20px !important;
+    background: linear-gradient(145deg, #171526, #10101b) !important;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, .22) !important;
+    overflow: hidden;
+}
+#performance-charts .section-header {
+    margin-bottom: 12px;
+}
+#performance-charts .section-header h2 {
+    font-size: 18px !important;
+    font-weight: 700;
+    letter-spacing: -.25px;
+}
+#performance-charts .section-header p {
+    font-size: 13px;
+    line-height: 1.6;
+    opacity: .85;
+}
+#performance-charts .chart-wrap {
+    position: relative !important;
+    width: 100% !important;
+    height: 310px !important;
+    max-height: none !important;
+    min-width: 0;
+}
+#performance-charts canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+@media (max-width: 760px) {
+    #performance-charts {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 16px !important;
+    }
+    #performance-charts .chart-wrap {
+        height: 280px !important;
+    }
+    #performance-charts > .section-card {
+        padding: 18px !important;
+    }
+}
+
+</style>
 
 </head>
 
 <body>
 
-    <div class="page">
+    <aside id="teacher-sidebar" class="teacher-sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-mark">SP</div>
+            <div>
+                <strong>Student Performance</strong>
+                <small>ACADEMIC ANALYTICS</small>
+            </div>
+        </div>
+
+        <div class="sidebar-label">WORKSPACE</div>
+        <a class="sidebar-link active" href="#teacher-home"><span>▦</span> Overview</a>
+        <a class="sidebar-link" href="#high-risk"><span>◎</span> High-Risk Students</a>
+        <a class="sidebar-link" href="#student-analytics"><span>⌁</span> Student Analytics</a>
+        <a class="sidebar-link" href="#performance-charts"><span>▥</span> Performance Charts</a>
+
+        <div class="sidebar-label sidebar-label-tools">TOOLS</div>
+        <a class="sidebar-link" href="/predict-form"><span>＋</span> New Prediction</a>
+        <a class="sidebar-link" href="/bulk-upload"><span>⇧</span> Bulk Upload</a>
+        <a class="sidebar-link" href="/export"><span>↗</span> Export Report</a>
+
+        <div class="sidebar-bottom">
+            <div class="sidebar-avatar">T</div>
+            <div class="sidebar-user">
+                <strong>{{ username }}</strong>
+                <small>Teacher account</small>
+            </div>
+            <a href="/logout" class="sidebar-logout" title="Logout">↗</a>
+        </div>
+    </aside>
+
+    <div class="page" id="teacher-home">
 
         <nav class="navbar">
 
@@ -345,13 +1610,13 @@
                 </span>
 
 
-                
+
                 <a href="/bulk-upload" class="export-button">Bulk Upload</a>
                 <a href="/export" class="export-button">
                     Export Student Report
                 </a>
-                
-    
+
+
                 <a href="/logout" class="logout">
                     Logout
                 </a>
@@ -385,7 +1650,7 @@
                 <p>{{ total_students }}</p>
 
             </div>
-           
+
 
             <div class="stat-card">
 
@@ -421,17 +1686,17 @@
 
         </div>
 
-        <div class="section-card">
+        <div class="section-card" id="high-risk">
 
             <div class="section-header">
                 <h2>High-Risk Students</h2>
                 <p>Students who may need additional academic support</p>
             </div>
-        
+
             <div class="table-container">
-        
+
                 <table>
-        
+
                     <thead>
                         <tr>
                             <th>Student Name</th>
@@ -441,13 +1706,13 @@
                             <th>Risk Level</th>
                         </tr>
                     </thead>
-        
+
                     <tbody>
-        
+
                         {% if high_risk_students %}
-        
+
                             {% for student in high_risk_students %}
-        
+
                             <tr>
                                 <td>
     <a href="/student-analytics/{{ student[1] }}"
@@ -460,25 +1725,25 @@
                                 <td>{{ student[3] }}</td>
                                 <td>{{ student[4] }}</td>
                             </tr>
-        
+
                             {% endfor %}
-        
+
                         {% else %}
-        
+
                             <tr>
                                 <td colspan="5">
                                     No high-risk students found.
                                 </td>
                             </tr>
-        
+
                         {% endif %}
-        
+
                     </tbody>
-        
+
                 </table>
-        
+
             </div>
-        
+
         </div>
 
 
@@ -513,7 +1778,7 @@
         </div>
 
 
-        <div class="section">
+        <div class="section" id="student-analytics">
 
             <h2>
                 Student Analytics
@@ -544,18 +1809,18 @@
             </div>
 
         </div>
-        <div class="charts-row">
+        <div class="charts-row" id="performance-charts">
         <div class="section-card">
 
             <div class="section-header">
                 <h2>Performance Distribution</h2>
                 <p>Overview of student performance levels</p>
             </div>
-        
-            <div style="height: 320px;">
+
+            <div class="chart-wrap">
                 <canvas id="performanceChart"></canvas>
             </div>
-        
+
         </div>
 
         <div class="section-card">
@@ -564,11 +1829,11 @@
                 <h2>Risk Distribution</h2>
                 <p>Overview of student academic risk levels</p>
             </div>
-        
-            <div style="height: 320px;">
+
+            <div class="chart-wrap">
                 <canvas id="riskChart"></canvas>
             </div>
-        
+
         </div>
     </div>
 
@@ -577,15 +1842,15 @@
             <h2>
                 High-Risk Students
             </h2>
-        
+
             <p>
                 View students who may need additional academic support.
             </p>
-        
+
             <a href="/high-risk-students" class="action" style="display: inline-block; margin-top: 15px;" >
                 View High-Risk Students
             </a>
-        
+
         </div>
 
 
@@ -594,127 +1859,154 @@
             <h2>
                 Bulk Prediction
             </h2>
-        
+
             <p>
                 Upload student data in CSV format to generate predictions
                 for multiple students at once.
             </p>
-        
+
             <a href="/bulk-upload" class="action" style="display: inline-block; margin-top: 15px;">
                 Open Bulk Prediction
             </a>
-        
+
         </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        const performanceData = {
-            excellent: {{ performance_data["Excellent"] }},
-            good: {{ performance_data["Good"] }},
-            average: {{ performance_data["Average"] }},
-            poor: {{ performance_data["Poor"] }}
-        };
-    
-        const ctx = document.getElementById("performanceChart");
-    
-        new Chart(ctx, {
-            type: "doughnut",
-    
-            data: {
-                labels: [
-                    "Excellent",
-                    "Good",
-                    "Average",
-                    "Poor"
-                ],
-    
-                datasets: [{
-                    data: [
-                        performanceData.excellent,
-                        performanceData.good,
-                        performanceData.average,
-                        performanceData.poor
-                    ],
-    
-                    backgroundColor: [
-                        "#A855F7",
-                        "#EC4899",
-                        "#F59E0B",
-                        "#EF4444"
-                    ],
-    
-                    borderColor: "#151521",
-                    borderWidth: 3
-                }]
+        
+const performanceData = {
+    excellent: {{ performance_data["Excellent"] }},
+    good: {{ performance_data["Good"] }},
+    average: {{ performance_data["Average"] }},
+    poor: {{ performance_data["Poor"] }}
+};
+
+const riskData = {
+    low: {{ risk_data["Low Risk"] }},
+    medium: {{ risk_data["Medium Risk"] }},
+    high: {{ risk_data["High Risk"] }}
+};
+
+const centerTotalPlugin = {
+    id: "centerTotal",
+    afterDraw(chart, args, options) {
+        const { ctx, chartArea } = chart;
+        if (!chartArea) return;
+
+        const total = chart.data.datasets[0].data.reduce(
+            (sum, value) => sum + (Number(value) || 0), 0
+        );
+        const x = (chartArea.left + chartArea.right) / 2;
+        const y = (chartArea.top + chartArea.bottom) / 2;
+
+        ctx.save();
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#F8F5FF";
+        ctx.font = "700 30px system-ui, sans-serif";
+        ctx.fillText(total.toLocaleString(), x, y - 8);
+        ctx.fillStyle = "#AAA5C4";
+        ctx.font = "500 12px system-ui, sans-serif";
+        ctx.fillText(options.label || "Total records", x, y + 18);
+        ctx.restore();
+    }
+};
+
+function createDonutChart(canvasId, labels, values, colors, centerLabel) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas || typeof Chart === "undefined") return;
+
+    new Chart(canvas, {
+        type: "doughnut",
+        data: {
+            labels,
+            datasets: [{
+                data: values,
+                backgroundColor: colors,
+                borderColor: "#171526",
+                borderWidth: 5,
+                hoverBorderWidth: 5,
+                hoverOffset: 8,
+                borderRadius: 5,
+                spacing: 3
+            }]
+        },
+        plugins: [centerTotalPlugin],
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: "72%",
+            radius: "92%",
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 850
             },
-    
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-    
-                plugins: {
-                    legend: {
-                        position: "bottom",
-    
-                        labels: {
-                            color: "#FFFFFF"
+            layout: { padding: 12 },
+            interaction: { intersect: true, mode: "nearest" },
+            plugins: {
+                centerTotal: { label: centerLabel },
+                legend: {
+                    position: "bottom",
+                    labels: {
+                        color: "#D9D5EA",
+                        padding: 18,
+                        boxWidth: 9,
+                        boxHeight: 9,
+                        usePointStyle: true,
+                        pointStyle: "circle",
+                        font: {
+                            family: "system-ui, sans-serif",
+                            size: window.innerWidth < 600 ? 11 : 12,
+                            weight: "600"
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: "#0D0C16",
+                    titleColor: "#FFFFFF",
+                    bodyColor: "#E5E1F2",
+                    borderColor: "#39324F",
+                    borderWidth: 1,
+                    padding: 12,
+                    displayColors: true,
+                    callbacks: {
+                        label(context) {
+                            const value = Number(context.raw) || 0;
+                            const data = context.dataset.data;
+                            const total = data.reduce(
+                                (sum, item) => sum + (Number(item) || 0), 0
+                            );
+                            const percent = total ? (value / total * 100).toFixed(1) : "0.0";
+                            return ` ${context.label}: ${value} (${percent}%)`;
                         }
                     }
                 }
             }
-        });
-    
-    
-        const riskData = {
-            low: {{ risk_data["Low Risk"] }},
-            medium: {{ risk_data["Medium Risk"] }},
-            high: {{ risk_data["High Risk"] }}
-        };
-    
-        const riskCtx = document.getElementById("riskChart");
-    
-        new Chart(riskCtx, {
-            type: "doughnut",
-    
-            data: {
-                labels: [
-                    "Low Risk",
-                    "Medium Risk",
-                    "High Risk"
-                ],
-    
-                datasets: [{
-                    data: [
-                        riskData.low,
-                        riskData.medium,
-                        riskData.high
-                    ],
-    
-                    backgroundColor: [
-                        "#10B981",
-                        "#F59E0B",
-                        "#F43F5E"
-                    ],
-    
-                    borderColor: "#151521",
-                    borderWidth: 3
-                }]
-            },
-    
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-    
-                plugins: {
-                    legend: {
-                        position: "bottom",
-    
-                        labels: {
-                            color: "#FFFFFF"
-                        }
-                    }
-                }
-            }
-        });
+        }
+    });
+}
+
+createDonutChart(
+    "performanceChart",
+    ["Excellent", "Good", "Average", "Poor"],
+    [
+        performanceData.excellent,
+        performanceData.good,
+        performanceData.average,
+        performanceData.poor
+    ],
+    ["#A855F7", "#EC4899", "#F59E0B", "#F43F5E"],
+    "Performance"
+);
+
+createDonutChart(
+    "riskChart",
+    ["Low Risk", "Medium Risk", "High Risk"],
+    [riskData.low, riskData.medium, riskData.high],
+    ["#10B981", "#F59E0B", "#F43F5E"],
+    "Risk records"
+);
+
     </script>
