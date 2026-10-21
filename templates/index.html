@@ -380,6 +380,7 @@ table {
 
         <form action="/predict" method="POST">
 
+            {% if session.get('role') == 'student' %}
             <div class="section-title">
                 Whose prediction do you want to make?
             </div>
@@ -396,6 +397,7 @@ table {
                     Friend
                 </label>
             </div>
+            {% endif %}
 
             <div id="student-information-section">
             <div class="section-title">
@@ -578,11 +580,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const selected = document.querySelector('input[name="prediction_type"]:checked');
         const isFriend = selected && selected.value === "friend";
 
-        section.style.display = isFriend ? "" : "none";
-        nameInput.required = !!isFriend;
-        idInput.required = !!isFriend;
+        const isStudent = options.length > 0;
 
-        if (!isFriend) {
+        section.style.display = (!isStudent || isFriend) ? "" : "none";
+        nameInput.required = !isStudent || !!isFriend;
+        idInput.required = !isStudent || !!isFriend;
+
+        if (isStudent && !isFriend) {
             nameInput.value = "";
             idInput.value = "";
         }
